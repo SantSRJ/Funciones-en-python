@@ -1,0 +1,2304 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Funciones en Python | Guía pedagógica</title>
+<style>
+:root{
+  --bg1:#f8fafc;--bg2:#e2e8f0;--card:#ffffff;--ink:#1e293b;--muted:#64748b;--line:#e2e8f0;
+  --blue:#3b82f6;--green:#10b981;--orange:#f59e0b;--purple:#8b5cf6;--red:#ef4444;
+  --t-blue:#eff6ff;--t-green:#ecfdf5;--t-orange:#fffbeb;--t-purple:#f5f3ff;--t-red:#fef2f2;
+  --code:#1e293b;--code-ink:#e2e8f0;--shadow:0 1px 3px rgba(15,23,42,.08),0 4px 14px rgba(15,23,42,.05);
+  --docente:#f0f9ff;--docente-b:#0ea5e9;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg1:#0f172a;--bg2:#111c33;--card:#172036;--ink:#e2e8f0;--muted:#94a3b8;--line:#26324a;
+  --t-blue:#172a4a;--t-green:#0f2f2a;--t-orange:#33280f;--t-purple:#261f45;--t-red:#3a1a1f;
+  --code:#0b1222;--code-ink:#e2e8f0;--shadow:0 1px 3px rgba(0,0,0,.4);--docente:#0c2534;
+}}
+:root[data-theme="dark"]{
+  --bg1:#0f172a;--bg2:#111c33;--card:#172036;--ink:#e2e8f0;--muted:#94a3b8;--line:#26324a;
+  --t-blue:#172a4a;--t-green:#0f2f2a;--t-orange:#33280f;--t-purple:#261f45;--t-red:#3a1a1f;
+  --code:#0b1222;--code-ink:#e2e8f0;--shadow:0 1px 3px rgba(0,0,0,.4);--docente:#0c2534;
+}
+:root{box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 16px);scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,"Helvetica Neue",Arial,sans-serif;color:var(--ink);
+  background:linear-gradient(135deg,var(--bg1),var(--bg2)) fixed;background-color:var(--bg1);line-height:1.55;font-size:16px}
+code,pre,textarea{font-family:"Cascadia Code","JetBrains Mono",Consolas,"Fira Code",ui-monospace,monospace}
+p code,li code,td code,h3 code,.tile code,.alerta code,button code,small code{background:rgba(59,130,246,.12);color:inherit;padding:.05em .35em;border-radius:5px;font-size:.88em}
+a{color:var(--blue)}
+.c-blue{color:var(--blue)}.c-green{color:var(--green)}.c-orange{color:var(--orange)}.c-purple{color:var(--purple)}.c-red{color:var(--red)}
+.muted{color:var(--muted);font-size:.92rem}
+
+/* layout */
+.layout{display:grid;grid-template-columns:250px minmax(0,1fr);gap:28px;max-width:1440px;margin:0 auto;padding:24px 24px 0}
+aside.side{position:sticky;top:calc(env(safe-area-inset-top,0px) + 16px);align-self:start;max-height:calc(100vh - 32px);overflow:auto}
+main{min-width:0}
+@media (max-width:980px){.layout{grid-template-columns:minmax(0,1fr);padding:14px 14px 0}aside.side{position:static;max-height:none}}
+
+/* side */
+.side-box{background:var(--card);border-radius:14px;box-shadow:var(--shadow);padding:16px;margin-bottom:14px;border:1px solid var(--line)}
+.side-box h4{margin:0 0 10px;font-size:.95rem;display:flex;gap:8px;align-items:center}
+.reloj{font-size:2rem;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:.02em}
+.reloj small{font-size:.9rem;color:var(--muted);font-weight:500}
+.barra{height:6px;border-radius:9px;background:var(--line);overflow:hidden;margin:8px 0 12px}
+.barra>span{display:block;height:100%;width:0;background:var(--blue);transition:width .4s}
+.btns{display:flex;gap:6px;flex-wrap:wrap}
+.agenda{list-style:none;margin:0;padding:0}
+.agenda a{display:flex;justify-content:space-between;gap:8px;padding:7px 10px;border-radius:9px;text-decoration:none;color:var(--ink);font-size:.92rem;border-left:3px solid transparent}
+.agenda a:hover{background:var(--t-blue)}
+.agenda a span:last-child{color:var(--muted);font-variant-numeric:tabular-nums;font-size:.85rem;white-space:nowrap}
+.agenda a.activo{background:var(--t-blue);border-left-color:var(--blue);font-weight:600}
+.agenda a.hecho{color:var(--muted)}
+.modo{display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:.92rem}
+.switch{position:relative;width:44px;height:24px;flex:none}
+.switch input{opacity:0;width:0;height:0}
+.switch span{position:absolute;inset:0;background:var(--line);border-radius:20px;cursor:pointer;transition:.2s}
+.switch span::before{content:"";position:absolute;width:18px;height:18px;left:3px;top:3px;background:#fff;border-radius:50%;transition:.2s;box-shadow:0 1px 2px rgba(0,0,0,.3)}
+.switch input:checked+span{background:var(--blue)}
+.switch input:checked+span::before{transform:translateX(20px)}
+.switch input:focus-visible+span{outline:2px solid var(--blue);outline-offset:2px}
+.py-estado{font-size:.85rem;color:var(--muted);display:flex;align-items:center;gap:6px;margin-top:10px}
+.py-estado .dot{width:8px;height:8px;border-radius:50%;background:var(--orange)}
+.py-estado.listo .dot{background:var(--green)}
+
+/* buttons */
+button{font:inherit;cursor:pointer}
+.btn,.btn-run,.btn-sec{border:0;border-radius:8px;padding:6px 12px;font-size:.88rem;font-weight:600;display:inline-flex;align-items:center;gap:6px}
+.btn{background:var(--t-blue);color:var(--blue)}
+.btn-run{background:var(--green);color:#fff}
+.btn-run:disabled{opacity:.6;cursor:wait}
+.btn-sec{background:transparent;color:var(--muted);border:1px solid var(--line)}
+button:focus-visible,input:focus-visible,textarea:focus-visible,summary:focus-visible{outline:2px solid var(--blue);outline-offset:2px}
+
+/* hero */
+.hero{text-align:center;padding:34px 10px 26px;position:relative}
+.hero h1{font-size:clamp(2.2rem,5vw,3.6rem);margin:0;line-height:1.1;display:inline-flex;gap:16px;align-items:center;letter-spacing:-.01em}
+.hero h1 i{color:var(--blue)}
+.hero p{color:var(--muted);font-size:1.25rem;margin:10px 0 0}
+.hero .pill{margin-top:14px}
+
+/* sections */
+.seccion{margin:0 0 46px}
+.sec-head{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:16px;padding-bottom:12px;border-bottom:1px solid var(--line)}
+.sec-tit{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.sec-tit>i{color:var(--blue);font-size:1.5rem;align-self:center}
+.sec-tit h2{margin:0;font-size:1.6rem;line-height:1.2}
+.sec-sub{color:var(--muted);font-size:.98rem}
+.pills{display:flex;gap:8px;flex-wrap:wrap}
+.pill{background:var(--t-blue);color:var(--blue);border-radius:20px;padding:4px 12px;font-size:.85rem;font-weight:600;display:inline-flex;gap:6px;align-items:center}
+.subtema{display:flex;align-items:center;gap:10px;margin:26px 0 12px;font-size:1.15rem}
+.subnum{background:var(--blue);color:#fff;border-radius:8px;padding:1px 9px;font-size:.9rem}
+.submin{margin-left:auto;color:var(--muted);font-size:.85rem;font-weight:500}
+.row2{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:18px;align-items:start}
+.col>*+*{margin-top:14px}
+@media (max-width:1180px){.row2{grid-template-columns:minmax(0,1fr)}}
+
+.card{background:var(--card);border-radius:14px;box-shadow:var(--shadow);padding:18px 20px;border:1px solid var(--line)}
+.card-tit{margin:0 0 10px;font-size:1.05rem;display:flex;gap:9px;align-items:center}
+.card p{margin:.4em 0 .7em}
+.tiles{display:grid;gap:10px;margin:10px 0}
+.tiles.t2{grid-template-columns:repeat(2,minmax(0,1fr))}
+.tiles.t3{grid-template-columns:repeat(3,minmax(0,1fr))}
+@media (max-width:600px){.tiles.t2,.tiles.t3{grid-template-columns:1fr}}
+.tile{border-radius:9px;padding:10px 12px;border-left:4px solid}
+.tile p{margin:2px 0 0;font-size:.9rem;color:var(--muted)}
+.tile-tit{font-weight:700;font-size:.95rem;display:flex;gap:7px;align-items:center}
+.t-blue{background:var(--t-blue);border-color:var(--blue)}.t-blue .tile-tit i{color:var(--blue)}
+.t-green{background:var(--t-green);border-color:var(--green)}.t-green .tile-tit i{color:var(--green)}
+.t-orange{background:var(--t-orange);border-color:var(--orange)}.t-orange .tile-tit i{color:var(--orange)}
+.t-purple{background:var(--t-purple);border-color:var(--purple)}.t-purple .tile-tit i{color:var(--purple)}
+.t-red{background:var(--t-red);border-color:var(--red)}.t-red .tile-tit i{color:var(--red)}
+
+/* code window */
+.win{background:var(--code);border-radius:12px;overflow:hidden;box-shadow:var(--shadow)}
+.win-bar{display:flex;align-items:center;gap:7px;padding:10px 14px;color:#94a3b8;font-size:.82rem;border-bottom:1px solid rgba(148,163,184,.12)}
+.win-bar .d{width:11px;height:11px;border-radius:50%}
+.win-bar .d:nth-child(1){background:#ef4444}.win-bar .d:nth-child(2){background:#f59e0b}.win-bar .d:nth-child(3){background:#10b981}
+.win-bar .titulo{margin-left:8px;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.win-bar button{background:rgba(148,163,184,.14);color:#cbd5e1;border:0;border-radius:6px;padding:3px 9px;font-size:.78rem;font-weight:600}
+.win-bar button.run{background:#10b981;color:#fff}
+.win pre.py,.win textarea{margin:0;padding:14px 16px;color:var(--code-ink);font-size:.86rem;line-height:1.6;overflow-x:auto;white-space:pre;tab-size:4}
+.win textarea,.editor{width:100%;min-height:160px;border:0;resize:vertical;background:#0f172a;color:#e2e8f0;display:block;font-size:.86rem;line-height:1.6;padding:14px 16px;white-space:pre;overflow:auto}
+.consola{margin:0;padding:12px 16px;background:#020617;color:#cbd5e1;font-size:.84rem;white-space:pre-wrap;border-top:1px solid #1e293b;max-height:340px;overflow:auto}
+.consola .err{color:#fca5a5}
+.consola .ayuda{display:block;margin-top:8px;padding:8px 10px;border-radius:7px;background:rgba(245,158,11,.14);color:#fde68a;font-family:"Segoe UI",system-ui,sans-serif;white-space:normal}
+.consola .meta{color:#64748b}
+.tok-c{color:#64748b;font-style:italic}.tok-s{color:#34d399}.tok-n{color:#60a5fa}.tok-k{color:#c084fc}.tok-b{color:#38bdf8}.tok-m{color:#93c5fd}.tok-v{color:#fbbf24}
+
+/* alert + teacher */
+.alerta{border-radius:12px;border:1px solid rgba(239,68,68,.35);border-left:5px solid var(--red);background:var(--t-red);padding:12px 16px}
+.alerta-tit{font-weight:700;color:var(--red);display:flex;gap:8px;align-items:center;margin-bottom:4px}
+.alerta p{margin:.35em 0}.alerta ul{margin:.3em 0;padding-left:1.2em}
+.alerta .win{margin-top:10px}
+.docente{border-radius:12px;border:1px dashed var(--docente-b);background:var(--docente);padding:12px 16px}
+.docente-tit{font-weight:700;color:var(--docente-b);display:flex;gap:8px;align-items:center;margin-bottom:4px}
+.docente p{margin:.35em 0}
+body.alumno .docente{display:none}
+
+/* tables */
+.tabla-wrap{overflow-x:auto}
+.tabla{width:100%;border-collapse:collapse;font-size:.9rem}
+.tabla th{text-align:left;color:var(--muted);font-weight:600;border-bottom:2px solid var(--line);padding:7px 8px}
+.tabla td{border-bottom:1px solid var(--line);padding:7px 8px;vertical-align:top}
+.tabla .none{color:var(--red);font-weight:600}.tabla .val{color:var(--green);font-weight:600}
+span.none{color:var(--red);font-weight:600}
+.traza{font-variant-numeric:tabular-nums;margin:10px 0}
+.traza td,.traza th{text-align:center}
+
+/* comparar */
+.comparar{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}
+.comparar>div{border-radius:9px;padding:10px 12px;display:flex;flex-direction:column;gap:5px}
+.comparar span{font-weight:700;font-size:.88rem}
+.comparar code{background:transparent!important;padding:0!important;font-size:.88rem}
+.comparar small{color:var(--muted)}
+.mal{background:var(--t-red)}.mal span{color:var(--red)}
+.bien{background:var(--t-green)}.bien span{color:var(--green)}
+.lista-ok{padding-left:1.2em;margin:.5em 0}.lista-ok li{margin:.25em 0}
+
+/* index guide */
+.idx-guia{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin:8px 0 12px}
+.idx{display:flex;flex-direction:column;align-items:center;gap:2px}
+.idx .v{border-radius:8px;padding:8px 14px;font-weight:700;border-left:0;color:#fff}
+.idx .t-blue{background:var(--blue)}.idx .t-green{background:var(--green)}.idx .t-orange{background:var(--orange)}.idx .t-purple{background:var(--purple)}
+.idx small{color:var(--muted);font-size:.8rem;font-variant-numeric:tabular-nums}
+.idx small.neg{color:var(--red)}
+
+/* chips */
+.chip-btn{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:20px;padding:4px 11px;font-size:.84rem}
+.chip-btn.on{background:var(--t-blue);border-color:var(--blue);color:var(--blue);font-weight:600}
+.chip-btn.accion{border-color:var(--green);color:var(--green)}
+.chip-btn code{background:transparent!important;padding:0!important}
+
+/* alias sim */
+.alias{border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:8px}
+.alias-ctrl{display:flex;gap:6px;flex-wrap:wrap}
+.alias-mem{display:flex;gap:16px;flex-wrap:wrap;margin:14px 0 6px;min-height:90px;align-items:flex-end}
+.obj{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.etqs{display:flex;gap:6px}
+.etq{background:var(--orange);color:#fff;font-weight:700;border-radius:6px;padding:1px 10px;font-family:"Cascadia Code",Consolas,monospace;position:relative}
+.etq::after{content:"↓";position:absolute;left:50%;transform:translateX(-50%);bottom:-19px;color:var(--muted);font-weight:400}
+.caja{display:flex;border:2px solid var(--blue);border-radius:9px;overflow:hidden;margin-top:12px}
+.caja span{padding:6px 12px;border-right:1px solid var(--line);font-family:"Cascadia Code",Consolas,monospace;background:var(--card)}
+.caja span:last-child{border-right:0}
+.caja span.nuevo{background:var(--t-green);color:var(--green);font-weight:700}
+.obj small{color:var(--muted);font-size:.78rem;font-family:"Cascadia Code",Consolas,monospace}
+.alias-msg{font-size:.92rem;margin:4px 0 0;min-height:2.6em}
+
+/* slicer */
+.slicer{border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:6px}
+.slicer-in{display:flex;align-items:center;gap:3px;font-size:1.05rem;flex-wrap:wrap}
+.slicer-in code{background:transparent!important;font-weight:700}
+.slicer-in input{width:64px;padding:5px 6px;border:1px solid var(--line);border-radius:7px;background:var(--card);color:var(--ink);font:inherit;font-size:.95rem;text-align:center}
+.slicer-pres{display:flex;gap:5px;flex-wrap:wrap;margin:10px 0}
+.slicer-celdas{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin:12px 0 6px}
+.celda{width:54px;border:2px solid var(--line);border-radius:9px;text-align:center;padding:4px 0;position:relative;transition:.2s}
+.celda b{display:block;font-size:1rem}
+.celda small{display:block;font-size:.72rem;color:var(--muted);font-variant-numeric:tabular-nums}
+.celda.sel{border-color:var(--green);background:var(--t-green)}
+.celda .ord{position:absolute;top:-10px;right:-8px;background:var(--green);color:#fff;font-size:.7rem;border-radius:9px;padding:0 6px;font-weight:700}
+.slicer-res{text-align:center;font-family:"Cascadia Code",Consolas,monospace;font-size:.95rem}
+.slicer-res .err{color:var(--red)}
+
+/* ejercicios */
+.nivel-tit{display:flex;gap:10px;align-items:center;font-size:1.15rem;margin:30px 0 12px}
+.niveles{display:flex;gap:7px;flex-wrap:wrap}
+.ej-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px}
+.ej-grid.dios{grid-template-columns:1fr}
+.ej{background:var(--card);border-radius:14px;box-shadow:var(--shadow);border:1px solid var(--line);border-top:4px solid;padding:16px 18px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.n-basico{border-top-color:var(--green)}.n-intermedio{border-top-color:var(--orange)}.n-avanzado{border-top-color:var(--red)}.n-dios{border-top-color:var(--purple)}
+.ej-head{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.ej-head h4{margin:0;font-size:1.02rem;flex:1;min-width:180px}
+.ej-id{font-weight:800;color:var(--muted);font-size:.85rem}
+.ej-enun p{margin:0}
+.badge{border-radius:20px;padding:3px 10px;font-size:.78rem;font-weight:700;display:inline-flex;gap:5px;align-items:center}
+.b-basico{background:var(--t-green);color:var(--green)}.b-intermedio{background:var(--t-orange);color:#d97706}.b-avanzado{background:var(--t-red);color:var(--red)}.b-dios{background:var(--t-purple);color:var(--purple)}
+.salida-esp{background:var(--t-blue);border-radius:9px;padding:8px 12px}
+.salida-esp span{font-size:.8rem;font-weight:700;color:var(--blue)}
+.salida-esp pre{margin:4px 0 0;font-size:.82rem;white-space:pre-wrap}
+.practica{border-radius:10px;overflow:hidden;background:var(--code)}
+.practica-bar{display:flex;justify-content:space-between;align-items:center;padding:7px 10px;color:#94a3b8;font-size:.82rem;gap:8px;flex-wrap:wrap}
+.practica-btns{display:flex;gap:6px}
+.practica .btn-sec{color:#cbd5e1;border-color:#334155;padding:3px 9px;font-size:.8rem}
+.practica .btn-run{padding:3px 10px;font-size:.8rem}
+details{border:1px solid var(--line);border-radius:10px;padding:0 12px}
+details summary{cursor:pointer;padding:9px 0;font-weight:600;font-size:.92rem;display:flex;gap:7px;align-items:center;list-style:none}
+details summary::-webkit-details-marker{display:none}
+details summary::after{content:"+";margin-left:auto;color:var(--muted);font-size:1.1rem}
+details[open] summary::after{content:"−"}
+details>div{padding:0 0 12px}
+details.pista summary{color:#d97706}
+details.solucion summary{color:var(--green)}
+details h5{margin:12px 0 4px;font-size:.95rem}
+.pasos{padding-left:1.3em;margin:.4em 0 .8em}.pasos li{margin:.3em 0}
+details .win{margin-top:8px}
+
+/* pausa */
+.pausa-in{display:flex;gap:18px;align-items:center;background:var(--card);border-radius:14px;padding:20px 24px;box-shadow:var(--shadow);border:1px solid var(--line)}
+.pausa-in i{font-size:2rem;color:var(--orange)}
+.pausa-in h2{margin:0;font-size:1.3rem}.pausa-in p{margin:2px 0 0;color:var(--muted)}
+
+/* quiz */
+.q{display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+.q:last-child{border-bottom:0}
+.q-num{flex:none;width:28px;height:28px;border-radius:50%;background:var(--t-blue);color:var(--blue);font-weight:700;display:grid;place-items:center;font-size:.85rem}
+.q-body{flex:1;min-width:0}
+pre.q-code{background:var(--code);color:var(--code-ink);border-radius:9px;padding:10px 12px;margin:0 0 8px;font-size:.84rem;overflow-x:auto}
+.q-ops{display:flex;flex-wrap:wrap;gap:6px}
+.q-op{border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:4px 12px;font-family:"Cascadia Code",Consolas,monospace;font-size:.85rem}
+.q-op.ok{background:var(--t-green);border-color:var(--green);color:var(--green);font-weight:700}
+.q-op.no{background:var(--t-red);border-color:var(--red);color:var(--red)}
+.q-fb{margin:6px 0 0;font-size:.88rem;min-height:1em}
+.q-score{font-weight:700;color:var(--blue);margin:10px 0 0}
+
+/* explorador de matriz */
+.mexp{border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:6px}
+.mexp-grid{display:grid;grid-template-columns:auto repeat(4,minmax(0,56px));gap:6px;justify-content:center;margin:14px 0 8px;align-items:center}
+.mexp-grid .hdr{font-size:.75rem;color:var(--muted);text-align:center;font-variant-numeric:tabular-nums}
+.mexp-grid button{border:2px solid var(--line);background:var(--card);color:var(--ink);border-radius:9px;padding:9px 0;font-weight:700;font-family:"Cascadia Code",Consolas,monospace}
+.mexp-grid button.sel{border-color:var(--green);background:var(--t-green);color:var(--green)}
+.mexp-grid button.hl{border-color:var(--blue);background:var(--t-blue)}
+.mexp-res{text-align:center;font-family:"Cascadia Code",Consolas,monospace;font-size:.92rem;min-height:2.6em}
+.malias-mem{display:flex;gap:18px;flex-wrap:wrap;margin:14px 0 6px;align-items:center}
+.mrows{display:flex;flex-direction:column;gap:6px}
+.mrow{display:flex;align-items:center;gap:8px}
+.mrow .etq{font-size:.8rem}
+.mrow .etq::after{content:none}
+.mrow .caja{margin-top:0}
+.mrow small{color:var(--muted);font-family:"Cascadia Code",Consolas,monospace;font-size:.76rem}
+.caja span.cambio{background:var(--t-red);color:var(--red);font-weight:700}
+/* consola flotante (modelo Clase 9) */
+.lanzador{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:40;border:0;border-radius:30px;padding:11px 18px;background:var(--blue);color:#fff;font-weight:700;font-size:.92rem;display:inline-flex;gap:8px;align-items:center;box-shadow:0 6px 20px rgba(15,27,45,.25)}
+.lanzador:hover{filter:brightness(1.08)}
+.cajon{position:fixed;right:18px;bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:50;width:min(580px,calc(100vw - 36px));max-height:calc(100vh - 36px - env(safe-area-inset-top,0px) - env(safe-area-inset-bottom,0px));overflow:auto;background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 50px rgba(15,27,45,.35);padding:16px 18px;display:none}
+.cajon.abierto{display:block}
+.cajon .cab{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
+.cajon .cab strong{font-size:1.1rem;display:flex;gap:8px;align-items:center}
+@media (max-width:600px){.cajon{right:8px;left:8px;width:auto;bottom:calc(8px + env(safe-area-inset-bottom,0px))}}
+.btn-mini{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:7px;padding:4px 10px;font-size:.82rem}
+.btn-mini:hover{border-color:var(--blue);color:var(--blue)}
+.btn-c{border:0;border-radius:7px;padding:8px 16px;font-weight:600;font-size:.9rem;background:var(--blue);color:#fff}
+.btn-c:disabled{opacity:.55;cursor:wait}
+.btn-c.sec{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.ed{display:grid;grid-template-columns:auto minmax(0,1fr);background:var(--code);border:1px solid #334155;border-radius:10px;overflow:hidden;font-family:"Cascadia Code","JetBrains Mono",Consolas,monospace;font-size:.85rem;line-height:1.6}
+.ed:focus-within{border-color:var(--blue)}
+.ed .gutter{padding:12px 8px 12px 12px;text-align:right;color:#64748b;user-select:none;border-right:1px solid #334155;min-width:40px;background:#172033}
+.ed .gutter span{display:block}
+.ed .gutter span.err{color:#fff;background:var(--red);border-radius:3px;padding:0 4px;margin-right:-4px}
+.ed .area{position:relative;overflow:hidden}
+.ed .capa,.ed textarea{margin:0;border:0;padding:12px 14px;font:inherit;line-height:inherit;white-space:pre;tab-size:4;letter-spacing:0;word-spacing:0}
+.ed .capa{position:absolute;inset:0;overflow:hidden;pointer-events:none;color:#e2e8f0;background:transparent}
+.ed .capa code{background:none;padding:0;font-size:inherit;display:block;color:inherit}
+.ed textarea{position:relative;display:block;width:100%;min-height:9em;resize:none;background:transparent;color:transparent;caret-color:#e2e8f0;outline:none;overflow-x:auto;overflow-y:hidden}
+.ed textarea::selection{background:rgba(59,130,246,.35);color:transparent}
+.entradas{display:grid;gap:4px;margin-top:10px}
+.entradas label{font-size:.82rem;color:var(--muted)}
+.entradas textarea{font-family:"Cascadia Code",Consolas,monospace;font-size:.84rem;border:1px solid var(--line);border-radius:7px;padding:6px 10px;background:var(--card);color:var(--ink);resize:vertical;min-height:2.4em;line-height:1.5}
+.barra-acc{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px;align-items:center}
+.barra-acc .atajo{font-size:.78rem;color:var(--muted);margin-left:auto}
+.consola-salida{margin-top:10px}
+.terminal{background:#0f172a;color:#e2e8f0;border-radius:10px;font-family:"Cascadia Code",Consolas,monospace;font-size:.82rem;line-height:1.6;padding:12px 14px;white-space:pre-wrap;word-break:break-word;max-height:300px;overflow:auto}
+.terminal .tenue{color:#7f93ae}
+.terminal .rojo{color:#ff8f84}
+.explica{background:var(--t-red);border-radius:0 0 10px 10px;padding:14px 14px 10px;font-size:.9rem;margin-top:-6px}
+.explica strong{color:var(--red)}
+.btn-probar{margin-top:8px}
+/* simulador hash y venn */
+.hashsim,.venn{border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:6px}
+.hs-in{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.hs-in input{flex:1;min-width:120px;padding:5px 9px;border:1px solid var(--line);border-radius:7px;background:var(--card);color:var(--ink);font:inherit;font-family:"Cascadia Code",Consolas,monospace;font-size:.9rem}
+.hs-tabla{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin:12px 0 6px}
+.hs-cas{border:2px solid var(--line);border-radius:9px;padding:6px 8px;min-height:62px;font-size:.8rem;transition:.2s}
+.hs-cas small{display:block;color:var(--muted);font-variant-numeric:tabular-nums}
+.hs-cas span{display:block;font-family:"Cascadia Code",Consolas,monospace;font-size:.78rem;overflow-wrap:anywhere}
+.hs-cas.hit{border-color:var(--green);background:var(--t-green)}
+.hs-cas.miss{border-color:var(--orange);background:var(--t-orange)}
+@media (max-width:600px){.hs-tabla{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.hs-msg{font-size:.9rem;margin:4px 0 0;min-height:2.6em}
+.venn svg{width:100%;max-width:440px;display:block;margin:10px auto 0}
+.venn .rA,.venn .rB,.venn .rI{fill:var(--card);transition:fill .25s}
+.venn .on{fill:#bfdbfe}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .venn .on{fill:#1e3a8a}}
+:root[data-theme="dark"] .venn .on{fill:#1e3a8a}
+.venn .tapa{fill:var(--card)}
+.venn .borde{fill:none;stroke:var(--ink);stroke-width:2;opacity:.55}
+.venn .vt{fill:var(--muted);font-size:14px;font-weight:700}
+.venn .ve{fill:var(--ink);font-size:15px;font-family:"Cascadia Code",Consolas,monospace}
+.venn-res{text-align:center;font-family:"Cascadia Code",Consolas,monospace;font-size:.9rem;min-height:2.6em;margin-top:4px}
+/* archivos, laboratorio, flujo */
+.explorador{margin-top:8px}
+.ex-lista{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:6px}
+.ex-arch{display:flex;align-items:center;gap:7px;border:1px solid var(--line);background:var(--card);color:var(--ink);border-radius:8px;padding:6px 9px;font-family:"Cascadia Code",Consolas,monospace;font-size:.8rem;text-align:left;min-width:0}
+.ex-arch span{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ex-arch i{color:var(--orange)}
+.ex-arch small{color:var(--muted);font-size:.7rem;white-space:nowrap}
+.ex-arch em{font-style:normal;font-size:.66rem;font-weight:700;border-radius:9px;padding:0 6px;font-family:"Segoe UI",system-ui,sans-serif}
+.ex-arch .ex-nuevo{background:var(--t-green);color:var(--green)}
+.ex-arch .ex-modificado{background:var(--t-orange);color:#b45309}
+.ex-arch.on{border-color:var(--blue);background:var(--t-blue)}
+.ex-ver:empty{display:none}
+.ex-ver{margin-top:8px;border-radius:10px;overflow:hidden;background:var(--code)}
+.ex-cab{display:flex;justify-content:space-between;align-items:center;padding:6px 10px;color:#cbd5e1;background:#172033}
+.ex-cab code{background:transparent!important;color:#93c5fd}
+.ex-cab .btn-mini{color:#cbd5e1;border-color:#334155}
+.ex-txt{margin:0;padding:10px 14px;color:#e2e8f0;font-size:.8rem;max-height:320px;overflow:auto;white-space:pre}
+.caj-arch{margin-top:12px}
+.btn-restaurar{width:100%;justify-content:center}
+.ent-nota{padding:7px 14px;font-size:.78rem;color:#94a3b8;border-top:1px solid rgba(148,163,184,.12)}
+.ent-nota code{background:transparent!important;color:#fbbf24}
+.ej-ent-lbl{display:block;padding:8px 10px;font-size:.78rem;color:#94a3b8;background:#172033}
+.ej-ent{display:block;width:100%;margin-top:4px;background:#0f172a;color:#fbbf24;border:1px solid #334155;border-radius:6px;padding:5px 8px;font-family:"Cascadia Code",Consolas,monospace;font-size:.8rem;resize:vertical}
+.lab{border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:6px}
+.lab-in{width:100%;margin-top:10px;background:var(--code);color:#e2e8f0;border:1px solid #334155;border-radius:9px;padding:10px 12px;font-family:"Cascadia Code",Consolas,monospace;font-size:.86rem;resize:vertical}
+.lab-res{margin-top:8px;min-height:3em}
+.lab-ok{color:var(--green);font-size:.9rem}
+.lab-mal{color:var(--red);font-size:.9rem;font-family:"Cascadia Code",Consolas,monospace}
+.lab-espera{color:var(--muted);font-size:.9rem}
+.lab-py,.lab-txt{margin:6px 0 0;background:var(--t-blue);border-radius:8px;padding:8px 10px;font-size:.84rem;white-space:pre-wrap;word-break:break-word}
+.lab-txt{background:var(--t-red)}
+.lab-txt mark{background:var(--red);color:#fff;border-radius:3px;padding:0 2px}
+.flujo{display:grid;grid-template-columns:1fr 2fr 1fr;gap:12px;align-items:center;margin:8px 0 6px}
+.fl-caja{border-radius:12px;padding:16px 12px;text-align:center;border:2px solid}
+.fl-caja b{display:block}.fl-caja small{color:var(--muted)}
+.fl-py{border-color:var(--blue);background:var(--t-blue)}.fl-js{border-color:var(--green);background:var(--t-green)}
+.fl-flechas{display:flex;flex-direction:column;gap:6px}
+.fl-f{border-radius:8px;padding:5px 10px;font-size:.84rem;display:flex;justify-content:space-between;gap:8px;align-items:center;position:relative}
+.fl-f code{background:transparent!important;font-weight:700}
+.fl-f small{color:var(--muted)}
+.fl-f.der{background:var(--t-orange)}.fl-f.izq{background:var(--t-purple)}
+.fl-f.der::after{content:"→";font-weight:700;color:var(--orange)}
+.fl-f.izq::before{content:"←";font-weight:700;color:var(--purple)}
+@media (max-width:700px){.flujo{grid-template-columns:1fr}.fl-f small{display:none}}
+.fases{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:10px 0}
+.fase{border-radius:10px;padding:10px;text-align:center;display:flex;flex-direction:column;gap:3px;position:relative}
+.fase code{background:transparent!important;font-size:.78rem}
+.fase small{color:var(--muted);font-size:.78rem}
+.f1{background:var(--t-blue)}.f2{background:var(--t-orange)}.f3{background:var(--t-green)}
+@media (max-width:600px){.fases{grid-template-columns:1fr}}
+/* clase 11 */
+.ex-borrado{opacity:.6;text-decoration:line-through;cursor:default}
+.ex-arch .ex-eliminado{background:var(--t-red);color:var(--red)}
+.ex-nl{color:#64748b;font-size:.72rem;margin-left:2px}
+.ex-sinnl{display:inline-block;margin-left:8px;color:#fca5a5;font-size:.72rem;border:1px dashed #fca5a5;border-radius:6px;padding:0 5px}
+.reg-demo{border:1px solid var(--line);border-radius:10px;overflow:hidden;margin:10px 0;font-family:"Cascadia Code",Consolas,monospace;font-size:.84rem}
+.reg-fila{display:grid;grid-template-columns:90px 1fr 50px}
+.reg-fila span{padding:6px 10px;border-right:1px dashed var(--line)}
+.reg-fila span:last-child{border-right:0}
+.reg-fila+.reg-fila{border-top:1px solid var(--line)}
+.reg-cab{background:var(--t-blue);color:var(--blue);font-weight:700;font-family:"Segoe UI",system-ui,sans-serif}
+.tira{display:flex;flex-wrap:wrap;gap:3px;margin:10px 0}
+.tira span{min-width:26px;text-align:center;border:1px solid var(--line);border-radius:5px;padding:4px 3px;font-family:"Cascadia Code",Consolas,monospace;font-size:.85rem;background:var(--card)}
+.tira span.nl{background:var(--t-orange);border-color:var(--orange);color:#b45309;font-weight:700}
+.rl{border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:6px}
+.rl-txt{background:var(--code);color:#e2e8f0;border-radius:9px;padding:12px 14px;margin:10px 0;font-family:"Cascadia Code",Consolas,monospace;font-size:.86rem;line-height:1.8;overflow-x:auto;white-space:nowrap}
+.rl-txt .rl-leido{color:#64748b}
+.rl-txt .rl-nl{color:#fbbf24;font-size:.75rem;margin-left:1px}
+.rl-txt .rl-nl.rl-leido{color:#78716c}
+.rl-cur{color:#34d399;animation:parp 1s steps(1) infinite;margin:0 1px}
+@keyframes parp{50%{opacity:0}}
+@media (prefers-reduced-motion:reduce){.rl-cur{animation:none}}
+.rl-eof{color:#fca5a5;font-size:.72rem;margin-left:8px;border:1px dashed #fca5a5;border-radius:6px;padding:0 5px}
+.rl-res{font-size:.9rem;min-height:4.5em;margin-top:8px;display:flex;flex-direction:column;gap:4px}
+.rl-v b{color:var(--green)}.rl-f b{color:var(--red)}
+.aux-flujo{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin:12px 0}
+.af-paso{border:1px solid var(--line);border-radius:10px;padding:10px;background:var(--card);display:flex;flex-direction:column;gap:3px;position:relative}
+.af-paso span{width:24px;height:24px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font-weight:700;font-size:.8rem}
+.af-paso b{font-size:.86rem}.af-paso small{color:var(--muted);font-size:.78rem}
+.af-paso code{background:transparent!important;padding:0!important;overflow-wrap:anywhere}
+.comparar>div{min-width:0}
+.comparar code{overflow-wrap:anywhere;white-space:normal}
+@media (max-width:520px){.comparar{grid-template-columns:1fr}}
+@media (max-width:760px){.aux-flujo{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.lv-ej{background:var(--code);color:#fbbf24;border-radius:8px;padding:8px 12px;font-size:.88rem;overflow-x:auto}
+/* clase funciones */
+.def-caja{background:var(--t-blue);border-left:4px solid var(--blue);border-radius:8px;padding:10px 12px}
+.anatomia{border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:6px}
+pre.anat{background:var(--code);color:#e2e8f0;border-radius:9px;padding:16px 18px;margin:12px 0 8px;font-size:1rem;line-height:1.8;overflow-x:auto}
+.anat .ap{border-radius:5px;padding:1px 2px;cursor:pointer;transition:background .2s,color .2s}
+.anat .ap.on{background:#fbbf24;color:#1e293b}
+.anat-txt{font-size:.92rem;min-height:2.8em;margin:0}
+.card .sim{border:1px solid var(--line);border-radius:12px;padding:12px;margin-top:6px;display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);gap:10px}
+.sim .alias-ctrl,.sim-msg{grid-column:1/-1}
+.sim-cod{margin:0;background:var(--code);color:#e2e8f0;border-radius:9px;padding:10px 0;font-size:.84rem;line-height:1.75;overflow-x:auto;white-space:pre}
+.sim-l{display:block;padding:0 12px;border-left:3px solid transparent}
+.sim-l em{display:inline-block;width:1.6em;color:#64748b;font-style:normal;font-size:.75rem}
+.sim-l.sim-fn{background:rgba(139,92,246,.08)}
+.sim-l.on{background:rgba(16,185,129,.22);border-left-color:#10b981}
+.sim-mem{display:flex;flex-direction:column;gap:8px}
+.sim-frame{border:2px solid var(--line);border-radius:10px;padding:8px 10px;font-size:.86rem;background:var(--card)}
+.sim-frame>b{display:block;font-size:.8rem;margin-bottom:4px}
+.sim-main{border-color:var(--blue)}.sim-main>b{color:var(--blue)}
+.sim-fun{border-color:var(--purple);background:var(--t-purple)}.sim-fun>b{color:var(--purple)}
+.sim-var{display:flex;justify-content:space-between;gap:8px;border-top:1px dashed var(--line);padding:3px 0}
+.sim-var code{background:transparent!important;padding:0!important;font-weight:700}
+.sim-var span{font-family:"Cascadia Code",Consolas,monospace}
+.sim-vacio{color:var(--muted);font-size:.8rem}
+.sim-sal{grid-column:2}
+.sim-sal b{font-size:.8rem;color:var(--muted)}
+.sim-sal pre{margin:4px 0 0;background:#020617;color:#e2e8f0;border-radius:8px;padding:8px 10px;min-height:2.2em;font-size:.84rem;white-space:pre-wrap}
+.sim-msg{font-size:.92rem;margin:0;min-height:2.8em}
+.sim-paso{margin-left:auto;color:var(--muted);font-size:.82rem;align-self:center}
+.sim button:disabled{opacity:.45;cursor:default}
+@media (max-width:760px){.sim{grid-template-columns:minmax(0,1fr)}.sim-sal{grid-column:1}}
+/* footer */
+.pie{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;color:var(--muted);font-size:.88rem;border-top:1px solid var(--line);padding:16px 0 26px;margin-top:10px}
+.pie .firma{font-weight:600;color:var(--ink)}
+@media print{aside.side,.practica,.win-bar button{display:none}.layout{grid-template-columns:1fr}details{border:0}details>div{display:block}}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/brython@3.13.2/brython.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/brython@3.13.2/brython_stdlib.js"></script>
+</head>
+<body>
+<div class="layout">
+<aside class="side" aria-label="Agenda y herramientas de la clase">
+  <div class="side-box">
+    <h4><i class="fa-regular fa-clock c-blue"></i> Reloj de la clase</h4>
+    <div class="reloj" id="reloj" aria-live="off">00:00</div>
+    <div class="barra"><span id="barra"></span></div>
+    <div class="btns"><button class="btn" id="t-play" type="button"><i class="fa-solid fa-play"></i> Iniciar</button><button class="btn-sec" id="t-reset" type="button">Reiniciar</button></div>
+  </div>
+  <div class="side-box">
+    <h4><i class="fa-solid fa-list-ol c-blue"></i> Agenda (150 min)</h4>
+    <ul class="agenda" id="agenda"></ul>
+  </div>
+  <div class="side-box">
+    <label class="modo"><span id="modo-lbl">Vista docente</span><span class="switch"><input type="checkbox" id="modo-docente" checked><span></span></span></label>
+    <p class="muted" style="margin:.5em 0 0">Apagalo para proyectar sin las notas para el docente.</p>
+<div class="py-estado" id="py-estado"><span class="dot"></span><span>Cargando Python…</span></div>
+  </div>
+</aside>
+<main>
+<header class="hero">
+  <h1><i class="fa-solid fa-cube"></i> Funciones en Python</h1>
+  <p>Modularización, parámetros, retorno y funciones lambda: clase teórico-práctica</p>
+  <div class="pills" style="justify-content:center;margin-top:14px"><span class="pill"><i class="fa-solid fa-graduation-cap"></i> Fundamentos de Informática · TP 6</span><span class="pill"><i class="fa-solid fa-layer-group"></i> 5 módulos</span><span class="pill"><i class="fa-regular fa-clock"></i> 2 h 30 min</span></div>
+</header>
+<section id="apertura" class="seccion">
+<header class="sec-head"><div class="sec-tit"><i class="fa-solid fa-door-open"></i><h2>Apertura</h2><span class="sec-sub">| Dividir para resolver</span></div><div class="pills"><span class="pill"><i class="fa-regular fa-clock"></i> 5 min</span><span class="pill"><i class="fa-solid fa-flag"></i> Encuadre</span></div></header>
+<div class="row2"><div class="col"><div class="card"><h3 class="card-tit"><i class="fa-solid fa-bullseye c-blue"></i> Objetivos de aprendizaje</h3><p>Al finalizar la clase, cada estudiante va a poder:</p><div class="tiles t2"><div class="tile t-blue"><div class="tile-tit"><i class="fa-solid fa-puzzle-piece"></i> Modularizar</div><p>Dividir un programa en <b>funciones</b> que realicen una sola tarea cada una.</p></div><div class="tile t-green"><div class="tile-tit"><i class="fa-solid fa-right-to-bracket"></i> Comunicar</div><p>Pasar datos con <b>parámetros</b> y devolver resultados con <code>return</code>.</p></div><div class="tile t-orange"><div class="tile-tit"><i class="fa-solid fa-sliders"></i> Flexibilizar</div><p>Usar argumentos <b>posicionales</b>, <b>por nombre</b> y <b>valores por defecto</b>.</p></div><div class="tile t-purple"><div class="tile-tit"><i class="fa-solid fa-bolt"></i> Abreviar</div><p>Escribir <b>funciones lambda</b> y usarlas con <code>sorted</code>, <code>max</code>, <code>map</code> y <code>filter</code>.</p></div></div></div><div class="card"><h3 class="card-tit"><i class="fa-solid fa-list-check c-blue"></i> Agenda de la clase (150 min)</h3><div class="tabla-wrap"><table class="tabla"><thead><tr><th>Bloque</th><th>Contenido</th><th>Tiempo</th></tr></thead><tbody><tr><td>Apertura</td><td>Encuadre y pregunta disparadora</td><td>5'</td></tr><tr><td>Módulo 1</td><td>Qué es una función: anatomía y flujo de ejecución</td><td>25'</td></tr><tr><td>Módulo 2</td><td>Parámetros y argumentos</td><td>25'</td></tr><tr><td>Pausa</td><td>Recreo</td><td>10'</td></tr><tr><td>Módulo 3</td><td>Valor de retorno, ámbito y buenas prácticas</td><td>25'</td></tr><tr><td>Módulo 4</td><td>Funciones lambda y funciones como valores</td><td>20'</td></tr><tr><td>Módulo 5</td><td>Práctica progresiva (4 niveles)</td><td>35'</td></tr><tr><td>Cierre</td><td>Repaso y tarea</td><td>5'</td></tr></tbody></table></div></div><aside class="docente"><div class="docente-tit"><i class="fa-solid fa-chalkboard-user"></i> Nota para el docente</div><p><b>Pregunta disparadora:</b> “Una fábrica de autos tiene secciones de estampado, soldadura, pintura, montaje y control. ¿Por qué no hace todo una sola persona?”. La respuesta (especialización, cada sección hace bien una cosa, se pueden reemplazar o mejorar por separado) es exactamente el argumento para dividir un programa en funciones.</p>
+<p>Todos los bloques se ejecutan con ▶ o se abren en la <b>Consola Python</b>. Los que usan <code>input()</code> traen cargados sus <b>datos de entrada</b>.</p></aside></div><div class="col"><div class="card"><h3 class="card-tit"><i class="fa-solid fa-industry c-blue"></i> Integración versus especialización</h3><p>En la vida cotidiana las tareas se reparten entre varias personas o secciones para optimizar el proceso. Con los programas pasa lo mismo: aunque se podría escribir todo como una sola unidad, conviene dividir el trabajo en porciones más chicas llamadas <b>funciones</b>.</p>
+<p class="def-caja"><b>Definición.</b> Una función es un módulo independiente de programa que realiza una tarea específica.</p><div class="tiles t3"><div class="tile t-blue"><div class="tile-tit"><i class="fa-solid fa-sitemap"></i> Dividir</div><p>Cada función hace una tarea concreta: el programa se entiende y se desarrolla por partes.</p></div><div class="tile t-green"><div class="tile-tit"><i class="fa-solid fa-repeat"></i> Reutilizar</div><p>Se invoca muchas veces sin repetir código.</p></div><div class="tile t-orange"><div class="tile-tit"><i class="fa-solid fa-share-nodes"></i> Compartir</div><p>La misma función, ya probada, sirve en otros programas.</p></div></div><div class="win"><pre class="py" data-title="python — Ejemplo 1: cálculo de un promedio" data-run="1" data-ent="7
+10"># Función
+def calcularpromedio(a, b):
+    total = (a + b) / 2
+    return total
+
+# Programa principal
+x = int(input("Ingresá un número entero: "))
+y = int(input("Ingresá otro número entero: "))
+resultado = calcularpromedio(x, y)
+print("El promedio de", x, "y", y, "es", resultado)</pre></div></div></div></div>
+</section>
+<section id="m1" class="seccion">
+<header class="sec-head"><div class="sec-tit"><i class="fa-solid fa-cube"></i><h2>Módulo 1: ¿Qué es una función?</h2><span class="sec-sub">| Anatomía, invocación y flujo de ejecución</span></div><div class="pills"><span class="pill"><i class="fa-regular fa-clock"></i> 25 min</span><span class="pill"><i class="fa-solid fa-book-open"></i> Teoría</span></div></header>
+<h3 class="subtema"><span class="subnum">1.1</span>Anatomía de una función<span class="submin">8 min</span></h3>
+<div class="row2"><div class="col"><div class="card"><h3 class="card-tit"><i class="fa-solid fa-magnifying-glass c-blue"></i> Las seis partes</h3><p class="muted">Tocá cada parte para verla resaltada en el código.</p>
+<div class="anatomia" id="anatomia">
+  <div class="alias-ctrl">
+    <button class="chip-btn on" type="button" data-ver="def">1. def</button><button class="chip-btn" type="button" data-ver="nombre">2. Nombre</button><button class="chip-btn" type="button" data-ver="param">3. Parámetros</button><button class="chip-btn" type="button" data-ver="dos">4. Dos puntos</button><button class="chip-btn" type="button" data-ver="cuerpo">5. Cuerpo</button><button class="chip-btn" type="button" data-ver="ret">6. return</button>
+  </div>
+  <pre class="anat" aria-label="Partes de una función"><span class="ap" data-p="def">def</span> <span class="ap" data-p="nombre">calcularpromedio</span><span class="ap" data-p="param">(a, b)</span><span class="ap" data-p="dos">:</span>
+<span class="ap" data-p="cuerpo">    total = (a + b) / 2</span>
+<span class="ap" data-p="cuerpo">    </span><span class="ap" data-p="ret">return total</span></pre>
+  <p class="anat-txt" aria-live="polite"></p>
+</div></div><aside class="docente"><div class="docente-tit"><i class="fa-solid fa-chalkboard-user"></i> Nota para el docente</div><p>Antes de tocar los botones, pedí que señalen las partes en el pizarrón. Insistí con dos convenciones de la cátedra: el nombre lleva un <b>verbo en infinitivo</b> que describa la tarea (<code>calcularpromedio</code>, <code>leerfecha</code>) y el cuerpo se define <b>solo por la sangría</b>: no hay llaves ni <code>end</code>.</p></aside></div><div class="col"><div class="card"><h3 class="card-tit"><i class="fa-solid fa-ruler c-blue"></i> Reglas para el nombre y la cabecera</h3><ul class="lista-ok">
+<li>El nombre sigue las mismas reglas que las variables: letras, números y <code>_</code>, sin empezar con número ni usar palabras reservadas.</li>
+<li>Se recomienda un <b>verbo en infinitivo</b>: <code>calcular_area</code>, <code>es_par</code>, <code>leer_entero</code>.</li>
+<li>Los parámetros van entre paréntesis y separados por comas. Puede haber <b>cero o más</b>.</li>
+<li>La cabecera termina con <code>:</code> y el cuerpo va indentado 4 espacios.</li>
+<li>Evitá nombres de funciones internas (<code>max</code>, <code>sum</code>, <code>list</code>): las “tapás” y dejan de funcionar.</li></ul></div><aside class="alerta"><div class="alerta-tit"><i class="fa-solid fa-triangle-exclamation"></i> Alerta de error típico: olvidar los paréntesis al llamar</div><p><code>resultado = calcularpromedio</code> no ejecuta la función: guarda la función misma en la variable. Al imprimir vas a ver <code>&lt;function calcularpromedio at 0x...&gt;</code>. Para invocarla siempre van los paréntesis: <code>calcularpromedio(x, y)</code>.</p></aside></div></div>
+
+<h3 class="subtema"><span class="subnum">1.2</span>Simulador: ¿qué pasa cuando se llama a una función?<span class="submin">9 min</span></h3>
+<div class="card"><h3 class="card-tit"><i class="fa-solid fa-shoe-prints c-blue"></i> Paso a paso</h3><p>Tocá <b>Siguiente</b> para avanzar línea por línea. A la derecha se ven las <b>variables</b> que existen en cada momento: cuando se llama a la función se crea un espacio propio para ella, y cuando termina con <code>return</code>, ese espacio desaparece.</p>
+<div class="sim" id="sim">
+  <pre class="sim-cod"></pre>
+  <div class="sim-mem"></div>
+  <div class="sim-sal"><b>Pantalla</b><pre></pre></div>
+  <p class="sim-msg" aria-live="polite"></p>
+  <div class="alias-ctrl"><button class="chip-btn" type="button" data-sim="prev">◀ Anterior</button><button class="chip-btn accion" type="button" data-sim="next">Siguiente ▶</button><button class="chip-btn" type="button" data-sim="reset">Reiniciar</button><span class="sim-paso"></span></div>
+</div></div>
+<div class="row2"><div class="col"><aside class="docente"><div class="docente-tit"><i class="fa-solid fa-chalkboard-user"></i> Nota para el docente</div><p>Detenete en el paso donde aparece el recuadro de <code>calcularpromedio</code>: <code>a</code> y <code>b</code> son <b>copias</b> de los valores de <code>x</code> e <code>y</code>, no las mismas variables. Y en el último paso, preguntá: “¿Puedo hacer <code>print(total)</code> en el programa principal?”. La respuesta (no, <code>total</code> ya no existe) introduce el ámbito del Módulo 3.</p></aside></div><div class="col"><div class="card"><h3 class="card-tit"><i class="fa-solid fa-route c-blue"></i> Flujo de ejecución</h3><p>Python ejecuta las sentencias de arriba hacia abajo. Un <code>def</code> <b>no ejecuta</b> el cuerpo: solo crea la función. El cuerpo corre recién cuando alguien la llama; ahí el flujo “se desvía” hacia la función y, al terminar, vuelve al punto donde estaba.</p>
+<p>Por eso la función tiene que estar <b>definida antes</b> de la primera llamada. Y una función puede llamar a otra: Python lleva la cuenta de a dónde volver en cada caso.</p></div><aside class="alerta"><div class="alerta-tit"><i class="fa-solid fa-triangle-exclamation"></i> Alerta de error típico: llamar antes de definir</div><p>Si la llamada aparece antes del <code>def</code>, Python todavía no conoce ese nombre: <code>NameError: name 'saludar' is not defined</code>. Por eso la cátedra exige escribir <b>todas las funciones antes del programa principal</b>.</p></aside><div class="win"><pre class="py" data-title="python — flujo de ejecución (Py4E)" data-run="1">def muestra_estribillo():
+    print("Soy un leñador, qué alegría.")
+    print("Duermo toda la noche y trabajo todo el día.")
+
+def repite_estribillo():
+    muestra_estribillo()          # una función puede llamar a otra
+    muestra_estribillo()
+
+# Programa principal
+print("Empieza el programa")      # las definiciones no muestran nada
+repite_estribillo()
+print("Termina el programa")
+print(type(repite_estribillo))    # una función también es un valor</pre></div><div class="win"><pre class="py" data-title="python — NameError por el orden" data-run="1"># Programa principal ANTES de definir la función
+saludar("Ana")
+
+def saludar(nombre):
+    print("Hola,", nombre)</pre></div></div></div>
+
+<h3 class="subtema"><span class="subnum">1.3</span>Funciones internas: las que ya trae Python<span class="submin">8 min</span></h3>
+<div class="row2"><div class="col"><div class="card"><h3 class="card-tit"><i class="fa-solid fa-toolbox c-blue"></i> Usamos funciones desde la primera clase</h3><p><code>print()</code>, <code>input()</code>, <code>len()</code> e <code>int()</code> también son funciones: reciben <b>argumentos</b> entre paréntesis y muchas <b>devuelven</b> un valor. La diferencia es que alguien ya las escribió por nosotros.</p><div class="tabla-wrap"><table class="tabla"><thead><tr><th>Tipo</th><th>Ejemplos</th></tr></thead><tbody><tr><td>Internas</td><td><code>len</code>, <code>max</code>, <code>min</code>, <code>abs</code>, <code>round</code>, <code>sum</code></td></tr><tr><td>Conversión</td><td><code>int</code>, <code>float</code>, <code>str</code>, <code>bool</code></td></tr><tr><td>De módulos</td><td><code>math.sqrt</code>, <code>math.pi</code>, <code>random.randint</code>, <code>random.choice</code></td></tr></tbody></table></div><p>Las funciones de un módulo se usan con <b>notación punto</b> después de importarlo: <code>import math</code> y luego <code>math.sqrt(16)</code>.</p></div></div><div class="col"><div class="win"><pre class="py" data-title="python — funciones internas y de módulos" data-run="1">import math
+import random
+
+print(len("Hola, mundo"))        # 11: cantidad de caracteres
+print(max(3, 9, 4), min("hola")) # 9 y 'a'
+print(int(3.99), int("32"))      # int no redondea: corta los decimales
+print(round(3.567, 2))           # 3.57
+print(math.sqrt(2) / 2)          # notación punto: módulo.función
+print(math.pi)
+
+random.seed(1)                   # misma secuencia para toda la clase
+print(random.randint(1, 6), random.choice(["piedra", "papel", "tijera"]))</pre></div></div></div>
+</section>
+<section id="m2" class="seccion">
+<header class="sec-head"><div class="sec-tit"><i class="fa-solid fa-right-to-bracket"></i><h2>Módulo 2: Parámetros y argumentos</h2><span class="sec-sub">| La puerta de entrada a la función</span></div><div class="pills"><span class="pill"><i class="fa-regular fa-clock"></i> 25 min</span><span class="pill"><i class="fa-solid fa-gears"></i> Teoría + práctica</span></div></header>
+<h3 class="subtema"><span class="subnum">2.1</span>Parámetros formales y reales<span class="submin">6 min</span></h3>
+<div class="row2"><div class="col"><div class="card"><h3 class="card-tit"><i class="fa-solid fa-door-open c-blue"></i> Dos nombres para dos lados de la llamada</h3><p>Los parámetros son la <b>puerta de entrada</b> a la función: a través de ellos recibe los datos con los que trabaja.</p><div class="tabla-wrap"><table class="tabla"><thead><tr><th></th><th>Dónde aparecen</th><th>También se llaman</th><th>En el ejemplo</th></tr></thead><tbody><tr><td><b>Formales</b></td><td>En la <b>cabecera</b> de la función</td><td>parámetros</td><td><code>a</code>, <code>b</code></td></tr><tr><td><b>Reales</b></td><td>En la <b>llamada</b> o invocación</td><td>argumentos</td><td><code>x</code>, <code>y</code></td></tr></tbody></table></div><p>Los formales actúan dentro de la función como <b>representantes</b> de los reales: <code>a</code> representa a <code>x</code> y <code>b</code> representa a <code>y</code>. Pueden tener el mismo nombre o nombres distintos: no hay ninguna relación entre ellos más allá de la posición.</p></div><aside class="docente"><div class="docente-tit"><i class="fa-solid fa-chalkboard-user"></i> Nota para el docente</div><p>El material de Py4E usa <code>bruce</code> y <code>michael</code> a propósito: nombres absurdos para dejar en claro que el nombre del argumento no tiene nada que ver con el del parámetro. Preguntá: “¿Qué imprime si llamo <code>muestra_dos_veces(17)</code>?”.</p></aside></div><div class="col"><div class="win"><pre class="py" data-title="python — formales y reales" data-run="1">def calcularpromedio(a, b):          # a y b: parámetros FORMALES
+    total = (a + b) / 2
+    return total
+
+# Programa principal
+x = 7
+y = 10
+print(calcularpromedio(x, y))        # x e y: parámetros REALES (argumentos)
+print(calcularpromedio(4, 5))        # también pueden ser valores literales
+print(calcularpromedio(x * 2, y - 1))   # o expresiones: se evalúan antes de llamar
+
+def muestra_dos_veces(bruce):        # el nombre del parámetro es independiente
+    print(bruce)
+    print(bruce)
+
+michael = "Eric, la medio-abeja."
+muestra_dos_veces(michael)           # adentro de la función se llama bruce</pre></div></div></div>
+
+<h3 class="subtema"><span class="subnum">2.2</span>Argumentos posicionales y por nombre<span class="submin">6 min</span></h3>
+<div class="row2"><div class="col"><div class="card"><h3 class="card-tit"><i class="fa-solid fa-arrow-down-1-9 c-blue"></i> ¿Cómo sabe Python qué valor va en cada parámetro?</h3><div class="tiles t2"><div class="tile t-blue"><div class="tile-tit"><i class="fa-solid fa-list-ol"></i> Posicionales</div><p>Por el <b>orden</b>: el primer argumento va al primer parámetro, y así.</p></div><div class="tile t-green"><div class="tile-tit"><i class="fa-solid fa-tag"></i> Por nombre (keyword)</div><p><code>parametro=valor</code>: el orden deja de importar y la llamada se lee mejor.</p></div></div><p>Se pueden mezclar, con una regla: <b>primero los posicionales, después los nombrados</b>.</p></div><aside class="alerta"><div class="alerta-tit"><i class="fa-solid fa-triangle-exclamation"></i> Alerta de error típico: posicional después de uno nombrado</div><p><code>describir_mascota(nombre="Toby", "perro", 3)</code> es un <code>SyntaxError: positional argument follows keyword argument</code>. El programa ni siquiera arranca.</p></aside></div><div class="col"><div class="win"><pre class="py" data-title="python — posicionales y por nombre" data-run="1">def describir_mascota(nombre, especie, edad):
+    return f"{nombre} es un {especie} de {edad} años"
+
+# Programa principal
+print(describir_mascota("Toby", "perro", 3))                    # posicionales: importa el ORDEN
+print(describir_mascota("perro", "Toby", 3))                    # orden cambiado: resultado absurdo
+print(describir_mascota(edad=3, nombre="Toby", especie="perro"))  # por nombre: el orden no importa
+print(describir_mascota("Michi", edad=5, especie="gato"))      # mixto: primero los posicionales</pre></div></div></div>
+
+<h3 class="subtema"><span class="subnum">2.3</span>Valores por defecto<span class="submin">5 min</span></h3>
+<div class="row2"><div class="col"><div class="card"><h3 class="card-tit"><i class="fa-solid fa-sliders c-blue"></i> Parámetros opcionales</h3><p>Un parámetro con <code>=valor</code> en la cabecera es <b>opcional</b>: si la llamada no lo envía, toma ese valor. Así una misma función sirve para el caso común y para los casos especiales.</p>
+<p>Los parámetros con valor por defecto van <b>después</b> de los obligatorios: <code>def f(a, b=2)</code> es válido, <code>def f(a=1, b)</code> no.</p>
+<p>Ya usaste parámetros por defecto sin saberlo: <code>print()</code> tiene <code>sep=" "</code> y <code>end="\n"</code>, y <code>round()</code> tiene <code>ndigits</code>.</p></div><aside class="alerta"><div class="alerta-tit"><i class="fa-solid fa-triangle-exclamation"></i> Alerta de error típico: una lista como valor por defecto</div><p>El valor por defecto se crea <b>una sola vez</b>, cuando se define la función. Si es una lista y la función la modifica, los cambios se acumulan entre llamadas. La solución estándar es usar <code>None</code> y crear la lista adentro.</p><div class="win"><pre class="py" data-title="python — la trampa del default mutable" data-run="1">def agregar_alumno(nombre, lista=[]):     # trampa: el [] se crea UNA sola vez
+    lista.append(nombre)
+    return lista
+
+print(agregar_alumno("Ana"))
+print(agregar_alumno("Luis"))             # ¡aparece Ana!
+
+def agregar_alumno_bien(nombre, lista=None):
+    if lista is None:                     # se crea una lista nueva en cada llamada
+        lista = []
+    lista.append(nombre)
+    return lista
+
+print(agregar_alumno_bien("Ana"))
+print(agregar_alumno_bien("Luis"))</pre></div></aside></div><div class="col"><div class="win"><pre class="py" data-title="python — parámetros con valor por defecto" data-run="1">def calcular_precio(precio, descuento=0, iva=21):
+    """Devuelve el precio final. descuento e iva en porcentaje."""
+    con_descuento = precio * (1 - descuento / 100)
+    return round(con_descuento * (1 + iva / 100), 2)
+
+# Programa principal
+print(calcular_precio(1000))                      # usa descuento=0 e iva=21
+print(calcular_precio(1000, 10))                  # descuento=10, iva por defecto
+print(calcular_precio(1000, iva=10.5))            # salteamos descuento con un nombre
+print(calcular_precio(1000, descuento=20, iva=0))
+
+# Funciones internas con parámetros por defecto que ya usamos
+print("a", "b", "c", sep="-", end=" &lt;- sep y end son parámetros con valor por defecto\n")
+print(round(3.14159), round(3.14159, 2))</pre></div></div></div>
+
+<h3 class="subtema"><span class="subnum">2.4</span>Cantidad variable: *args y **kwargs<span class="submin">4 min</span></h3>
+<div class="row2"><div class="col"><div class="card"><h3 class="card-tit"><i class="fa-solid fa-layer-group c-blue"></i> Cuando no sabés cuántos argumentos van a llegar</h3><div class="tabla-wrap"><table class="tabla"><thead><tr><th>Sintaxis</th><th>Recibe</th><th>Dentro de la función es</th></tr></thead><tbody><tr><td><code>*args</code></td><td>Cualquier cantidad de argumentos posicionales</td><td>una <b>tupla</b></td></tr><tr><td><code>**kwargs</code></td><td>Cualquier cantidad de argumentos por nombre</td><td>un <b>diccionario</b></td></tr></tbody></table></div><p>Los nombres <code>args</code> y <code>kwargs</code> son convención; lo que importa son los asteriscos. Así funciona <code>print()</code>, que acepta cualquier cantidad de valores. Es un tema de nivel intermedio: alcanza con reconocerlo y saber leerlo.</p></div></div><div class="col"><div class="win"><pre class="py" data-title="python — *args y **kwargs" data-run="1">def sumar_todos(*numeros):            # *: cantidad VARIABLE de argumentos
+    print("Recibí la tupla:", numeros)
+    total = 0
+    for n in numeros:
+        total += n
+    return total
+
+def ficha(nombre, **datos):            # **: argumentos por nombre en un diccionario
+    linea = nombre
+    for clave, valor in datos.items():
+        linea += f" | {clave}: {valor}"
+    return linea
+
+# Programa principal
+print(sumar_todos(1, 2))
+print(sumar_todos(5, 10, 15, 20))
+print(sumar_todos())                   # cero argumentos: tupla vacía
+print(ficha("Ana", edad=20, carrera="Sistemas"))
+
+valores = [3, 4, 5]
+print(sumar_todos(*valores))           # * al LLAMAR: desarma la lista en argumentos</pre></div></div></div>
+
+<h3 class="subtema"><span class="subnum">2.5</span>Errores en la llamada y paso de listas<span class="submin">4 min</span></h3>
+<div class="row2"><div class="col"><div class="card"><h3 class="card-tit"><i class="fa-solid fa-triangle-exclamation c-blue"></i> La cantidad tiene que coincidir</h3><p>Si faltan o sobran argumentos, o se usa un nombre que no existe, Python lanza <code>TypeError</code> en el momento de la llamada. El mensaje dice exactamente qué pasó: <i>missing 1 required positional argument</i>, <i>takes 2 positional arguments but 3 were given</i>, <i>unexpected keyword argument</i>.</p>
+<p><b>¿Qué recibe la función: el valor o la variable?</b> Recibe una <b>referencia</b> al mismo objeto. Con números y textos no se nota, porque son inmutables. Pero si la función recibe una <b>lista</b> y la modifica, el cambio se ve afuera: es el aliasing de la clase de listas.</p></div><aside class="alerta"><div class="alerta-tit"><i class="fa-solid fa-triangle-exclamation"></i> Alerta de error típico: modificar sin querer la lista recibida</div><p>Si la función debe devolver una lista nueva (por ejemplo, filtrada), creá una lista nueva adentro y no toques la que recibiste. Quien la llamó no espera que su lista cambie.</p></aside></div><div class="col"><div class="win"><pre class="py" data-title="python — TypeError en la llamada" data-run="1">def area_rectangulo(base, altura):
+    return base * altura
+
+# Programa principal
+print(area_rectangulo(4, 3))          # bien: 12
+print(area_rectangulo(altura=3, base=4))
+
+try:
+    area_rectangulo(4)                       # falta un argumento
+except TypeError as e:
+    print("TypeError:", e)
+try:
+    area_rectangulo(4, 3, 2)                 # sobra un argumento
+except TypeError as e:
+    print("TypeError:", e)
+try:
+    area_rectangulo(4, 3, ancho=2)           # un parámetro que la función no tiene
+except TypeError as e:
+    print("TypeError:", e)</pre></div><div class="win"><pre class="py" data-title="python — números frente a listas" data-run="1">def duplicar_numero(n):
+    n = n * 2                         # cambia la copia LOCAL
+    return n
+
+def agregar_bonus(notas):
+    notas.append(10)                  # modifica la MISMA lista que recibió
+
+# Programa principal
+x = 5
+duplicar_numero(x)
+print("x sigue valiendo", x)          # 5: los números son inmutables
+
+mis_notas = [7, 8]
+agregar_bonus(mis_notas)
+print("la lista cambió:", mis_notas)  # [7, 8, 10]: la lista es mutable (aliasing)</pre></div></div></div>
+</section>
+<section id="pausa" class="seccion pausa"><div class="pausa-in"><i class="fa-solid fa-mug-hot"></i><div><h2>Pausa: 10 minutos</h2><p>Volvemos con el valor de retorno y el ámbito: cómo se comunican las funciones con el programa.</p></div></div></section>
+<section id="m3" class="seccion">
+<header class="sec-head"><div class="sec-tit"><i class="fa-solid fa-right-from-bracket"></i><h2>Módulo 3: Valor de retorno, ámbito y buenas prácticas</h2><span class="sec-sub">| return, variables locales y las reglas de la cátedra</span></div><div class="pills"><span class="pill"><i class="fa-regular fa-clock"></i> 25 min</span><span class="pill"><i class="fa-solid fa-gears"></i> Teoría + práctica</span></div></header>
+<h3 class="subtema"><span class="subnum">3.1</span>return: la puerta de salida<span class="submin">8 min</span></h3>
+<div class="row2"><div class="col"><div class="card"><h3 class="card-tit"><i class="fa-solid fa-right-from-bracket c-blue"></i> Devolver resultados</h3><p>La función hace su trabajo y entrega el resultado al programa que la llamó con <code>return</code>, que además <b>termina</b> la ejecución de la función en ese punto.</p><div class="tabla-wrap"><table class="tabla"><thead><tr><th></th><th>Productiva</th><th>Estéril</th></tr></thead><tbody><tr><td>Qué hace</td><td>Calcula y <b>devuelve</b> un valor</td><td>Realiza una acción (por ejemplo, mostrar)</td></tr><tr><td>Tiene return</td><td>Sí</td><td>No (o <code>return</code> solo)</td></tr><tr><td>Si la asignás</td><td>Guardás el resultado</td><td>Guardás <code>None</code></td></tr><tr><td>Ejemplo</td><td><code>calcular_area()</code></td><td><code>imprimirfecha()</code></td></tr></tbody></table></div><p><code>None</code> no es la cadena <code>"None"</code>: es un valor especial de tipo <code>NoneType</code> que significa “nada”.</p></div><aside class="alerta"><div class="alerta-tit"><i class="fa-solid fa-triangle-exclamation"></i> Alerta de error típico: confundir <code>print</code> con <code>return</code></div><p>Una función que hace <code>print(resultado)</code> en lugar de <code>return resultado</code> <b>parece</b> funcionar, porque el valor aparece en pantalla. Pero el programa principal recibe <code>None</code> y no puede usarlo en otra cuenta: <code>TypeError: unsupported operand type(s) for *: 'NoneType' and 'int'</code>.</p></aside></div><div class="col"><div class="win"><pre class="py" data-title="python — productiva frente a estéril" data-run="1">def calcular_area(base, altura):       # productiva: DEVUELVE un valor
+    return base * altura
+
+def mostrar_area(base, altura):        # estéril: MUESTRA, pero no devuelve
+    print("El área es", base * altura)
+
+# Programa principal
+a = calcular_area(4, 3)
+print("Guardé", a, "y puedo seguir usándolo:", a * 2)
+
+b = mostrar_area(4, 3)
+print("¿Y b?", b, type(b))             # None: no hubo return
+print(b * 2)                           # TypeError: no se puede operar con None</pre></div><div class="win"><pre class="py" data-title="python — devolver varios valores" data-run="1">def dividir(dividendo, divisor):
+    cociente = dividendo // divisor
+    resto = dividendo % divisor
+    return cociente, resto             # devuelve UNA tupla con dos valores
+
+def estadisticas(lista):
+    return min(lista), max(lista), sum(lista) / len(lista)
+
+# Programa principal
+c, r = dividir(17, 5)                  # desempaquetado
+print("Cociente:", c, "Resto:", r)
+resultado = dividir(17, 5)
+print(resultado, type(resultado))
+
+menor, mayor, prom = estadisticas([7, 3, 9, 5])
+print(f"Mín {menor}, máx {mayor}, promedio {prom:.2f}")</pre></div><div class="win"><pre class="py" data-title="python — return termina la función" data-run="1">def clasificar_nota(nota):
+    if nota &gt;= 7:
+        return "Promocionado"          # return TERMINA la función
+    if nota &gt;= 4:
+        return "Aprobado"
+    return "Desaprobado"
+    print("Esta línea nunca se ejecuta")
+
+# Programa principal
+for n in [9, 5, 2]:
+    print(n, "-&gt;", clasificar_nota(n))</pre></div></div></div>
+
+<h3 class="subtema"><span class="subnum">3.2</span>No colocar return dentro de un ciclo<span class="submin">4 min</span></h3>
+<div class="row2"><div class="col"><div class="card"><h3 class="card-tit"><i class="fa-solid fa-ban c-blue"></i> Una regla de la cátedra</h3><p>Se considera una <b>mala práctica</b> colocar un <code>return</code> dentro de un ciclo: el ciclo tiene dos salidas (la condición y el <code>return</code>) y el código se vuelve difícil de seguir. La forma correcta es dejar que el ciclo termine por su condición y devolver al final.</p>
+<p>Para búsquedas, en lugar de “cortar con <code>return</code> cuando lo encuentro”, se usa una <b>bandera</b> o se agrega la condición al <code>while</code>: <code>while i &lt; len(lista) and not encontrado:</code>.</p></div><aside class="docente"><div class="docente-tit"><i class="fa-solid fa-chalkboard-user"></i> Nota para el docente</div><p>Los dos bloques dan el mismo resultado con los mismos datos de entrada. Pedí que comparen la cantidad de salidas de cada ciclo y la cantidad de <code>return</code>. Esta regla aparece en todas las soluciones de la práctica.</p></aside></div><div class="col"><div class="win"><pre class="py" data-title="python — así NO" data-run="1" data-ent="5
+8
+2
+-1">def leerysumar():
+    suma = 0
+    n = 0
+    while n != -1:
+        n = int(input("Ingresá un número entero o -1 para terminar: "))
+        if n == -1:
+            return suma                # return DENTRO del ciclo: mala práctica
+        suma = suma + n
+
+# Programa principal
+total = leerysumar()
+print("La suma de los valores ingresados es", total)</pre></div><div class="win"><pre class="py" data-title="python — así SÍ" data-run="1" data-ent="5
+8
+2
+-1">def leerysumar():
+    suma = 0
+    n = int(input("Ingresá un número entero o -1 para terminar: "))
+    while n != -1:
+        suma = suma + n
+        n = int(input("Ingresá un número entero o -1 para terminar: "))
+    return suma                        # un único return, al final
+
+# Programa principal
+total = leerysumar()
+print("La suma de los valores ingresados es", total)</pre></div></div></div>
+
+<h3 class="subtema"><span class="subnum">3.3</span>Ámbito de las variables<span class="submin">7 min</span></h3>
+<div class="row2"><div class="col"><div class="card"><h3 class="card-tit"><i class="fa-solid fa-box c-blue"></i> Cada función tiene su propio espacio</h3><p>Las variables creadas dentro de una función (incluidos sus parámetros) son <b>locales</b>: nacen cuando la función se llama y desaparecen cuando termina. Las del programa principal no deben usarse dentro de las funciones, y viceversa.</p>
+<p>Por eso hace falta el circuito <b>parámetros → función → return</b>: es la única comunicación correcta entre los dos mundos.</p></div><aside class="alerta"><div class="alerta-tit"><i class="fa-solid fa-triangle-exclamation"></i> Alerta de error típico: usar variables del programa principal</div><p>Una función sin parámetros que lee <code>x</code> e <code>y</code> “de afuera” funciona por casualidad: depende de que existan variables con esos nombres y su resultado cambia sin que la llamada cambie. No se puede reutilizar en otro programa. <b>Todo dato que la función necesite debe pasarse como parámetro.</b></p></aside><aside class="alerta"><div class="alerta-tit"><i class="fa-solid fa-triangle-exclamation"></i> Alerta de error típico: modificar una variable global</div><p>Si una función <b>asigna</b> una variable con el mismo nombre que una global, Python la considera local en toda la función. Leerla antes de asignarla da <code>UnboundLocalError</code>. Existe la palabra <code>global</code> para forzarlo, pero en la materia no se usa: se pasa el valor como parámetro y se devuelve el nuevo.</p></aside></div><div class="col"><div class="win"><pre class="py" data-title="python — variables locales" data-run="1">def calcularpromedio(a, b):
+    total = (a + b) / 2                # total es LOCAL: solo existe acá adentro
+    return total
+
+# Programa principal
+x, y = 7, 10
+resultado = calcularpromedio(x, y)
+print(resultado)
+print(total)                           # NameError: total no existe afuera</pre></div><div class="win"><pre class="py" data-title="python — ésto debe evitarse" data-run="1"># Ésto debe evitarse: la función usa variables del programa principal
+def calcularpromedio():
+    total = (x + y) / 2                # x e y "aparecen" de afuera
+    return total
+
+# Programa principal
+x = 7
+y = 10
+print(calcularpromedio())              # funciona... pero solo con esas variables
+
+x = 1
+print(calcularpromedio())              # el resultado depende de algo que no se ve</pre></div><div class="win"><pre class="py" data-title="python — UnboundLocalError" data-run="1">contador = 0
+
+def incrementar():
+    contador = contador + 1            # Python la considera LOCAL por la asignación
+    return contador
+
+# Programa principal
+print(incrementar())                   # UnboundLocalError</pre></div><div class="win"><pre class="py" data-title="python — la versión correcta" data-run="1"># La solución correcta: pasar el valor y devolver el nuevo
+def incrementar(contador):
+    return contador + 1
+
+# Programa principal
+contador = 0
+contador = incrementar(contador)
+contador = incrementar(contador)
+print(contador)                        # 2</pre></div></div></div>
+
+<h3 class="subtema"><span class="subnum">3.4</span>Reglas de estilo y el programa completo<span class="submin">6 min</span></h3>
+<div class="row2"><div class="col"><div class="card"><h3 class="card-tit"><i class="fa-solid fa-clipboard-check c-blue"></i> Lo que pide la cátedra</h3><ul class="lista-ok">
+<li>Las funciones se escriben <b>antes</b> del programa principal. Ni durante, ni después.</li>
+<li>Una <b>línea en blanco</b> antes de cada función y entre la última función y el programa principal.</li>
+<li>Un comentario <code># Programa principal</code> que indique dónde empieza.</li>
+<li>Cada función realiza <b>una sola tarea</b>. Si calcula, solo calcula: el <code>input()</code> y el <code>print()</code> no forman parte de ella (salvo que su tarea sea justamente leer o mostrar).</li>
+<li>Todo dato se recibe por parámetro y todo resultado se devuelve con <code>return</code>.</li>
+<li>Un solo <code>return</code>, fuera de los ciclos.</li>
+<li>Recomendado: un <b>docstring</b> (<code>"""..."""</code>) en la primera línea del cuerpo que explique qué hace.</li></ul></div><aside class="docente"><div class="docente-tit"><i class="fa-solid fa-chalkboard-user"></i> Nota para el docente</div><p>Este es el “programa completo” del material (ejemplos 2 a 6). Muestra tres novedades a la vez: una función <b>sin parámetros</b> (<code>leerfecha()</code>), una que <b>devuelve tres valores</b> y una función que <b>llama a otra</b> (<code>leerfecha</code> usa <code>leerentero</code>). Los datos de entrada incluyen un mes fuera de rango (<code>13</code>) para ver la validación.</p></aside></div><div class="col"><div class="win"><pre class="py" data-title="python — Ejemplos 2 a 6: el programa completo" data-run="1" data-ent="15
+13
+2
+2001
+28
+10
+2026">def leerentero(minimo, maximo):
+    """Lee un entero por teclado hasta que esté entre minimo y maximo."""
+    print("Ingresá un número entero entre", minimo, "y", maximo, ": ", end="")
+    a = int(input())
+    while a &lt; minimo or a &gt; maximo:
+        print("Valor incorrecto. Debe estar entre", minimo, "y", maximo)
+        a = int(input("Ingresá un número entero: "))
+    return a
+
+def calcularedad(dnac, mnac, anac, dact, mact, aact):
+    """Devuelve la edad cumplida a la fecha actual."""
+    edad = aact - anac
+    if mact &lt; mnac:
+        edad = edad - 1
+    elif mact == mnac and dact &lt; dnac:
+        edad = edad - 1
+    return edad
+
+def leerfecha():
+    """Lee día, mes y año validados. Devuelve los tres valores."""
+    print("Día? ", end="")
+    dia = leerentero(1, 31)
+    print("Mes? ", end="")
+    mes = leerentero(1, 12)
+    print("Año? ", end="")
+    anio = leerentero(1583, 2100)
+    return dia, mes, anio
+
+def imprimirfecha(d, m, a):
+    print("La fecha es", d, "/", m, "/", a)
+
+# Programa principal
+print("Ingresá tu fecha de nacimiento:")
+dnac, mnac, anac = leerfecha()
+print("Ingresá la fecha de hoy:")
+dhoy, mhoy, ahoy = leerfecha()
+imprimirfecha(dhoy, mhoy, ahoy)
+edad = calcularedad(dnac, mnac, anac, dhoy, mhoy, ahoy)
+print("Tenés", edad, "años")</pre></div></div></div>
+</section>
+<section id="m4" class="seccion">
+<header class="sec-head"><div class="sec-tit"><i class="fa-solid fa-bolt"></i><h2>Módulo 4: Funciones lambda y funciones como valores</h2><span class="sec-sub">| Funciones de una línea, para usar y descartar</span></div><div class="pills"><span class="pill"><i class="fa-regular fa-clock"></i> 20 min</span><span class="pill"><i class="fa-solid fa-gears"></i> Teoría + práctica</span></div></header>
+<h3 class="subtema"><span class="subnum">4.1</span>Sintaxis de lambda<span class="submin">6 min</span></h3>
+<div class="row2"><div class="col"><div class="card"><h3 class="card-tit"><i class="fa-solid fa-bolt c-blue"></i> <code>lambda parámetros: expresión</code></h3><p>Una <b>función lambda</b> (o función anónima) es una función pequeña escrita en una sola expresión. Devuelve <b>automáticamente</b> el resultado de esa expresión: no lleva <code>return</code>.</p>
+<div class="comparar"><div class="bien"><span>Con def</span><code>def doble(x):</code><code>&nbsp;&nbsp;&nbsp;&nbsp;return x * 2</code></div><div class="bien"><span>Con lambda</span><code>doble = lambda x: x * 2</code><small>misma función</small></div></div><div class="tabla-wrap"><table class="tabla"><thead><tr><th></th><th>def</th><th>lambda</th></tr></thead><tbody><tr><td>Nombre</td><td>Obligatorio</td><td>Opcional (anónima)</td></tr><tr><td>Cuerpo</td><td>Varias sentencias</td><td>Una sola expresión</td></tr><tr><td>return</td><td>Explícito</td><td>Implícito</td></tr><tr><td>Docstring</td><td>Sí</td><td>No</td></tr><tr><td>Ideal para</td><td>Cualquier tarea</td><td>Funciones cortas que se pasan como argumento</td></tr></tbody></table></div></div><aside class="alerta"><div class="alerta-tit"><i class="fa-solid fa-triangle-exclamation"></i> Alerta de error típico: usar lambda para todo</div><p>Una lambda no admite <code>if</code> de varias líneas, ciclos, <code>input()</code> ni <code>return</code>. Si necesitás algo de eso, o si la vas a reutilizar en varios lugares, escribí un <code>def</code> con un buen nombre. La guía de estilo de Python (PEP 8) incluso desaconseja asignar una lambda a una variable: lo hacemos en clase solo para comparar.</p></aside></div><div class="col"><div class="win"><pre class="py" data-title="python — lambda frente a def" data-run="1"># Con def
+def cuadrado(x):
+    return x ** 2
+
+# Con lambda: misma función, en una expresión
+cuadrado_l = lambda x: x ** 2
+
+print(cuadrado(5), cuadrado_l(5))
+print(type(cuadrado_l))                # también es una función
+
+suma = lambda a, b: a + b              # varios parámetros
+saludo = lambda nombre="mundo": f"Hola, {nombre}"   # con valor por defecto
+print(suma(3, 4), saludo(), saludo("Ana"))
+print((lambda x: x * 10)(3))           # se puede usar sin nombre</pre></div><div class="win"><pre class="py" data-title="python — lambda no admite return" data-run="1"># Una lambda es UNA expresión: no admite return ni varias sentencias
+doble = lambda x: return x * 2</pre></div></div></div>
+
+<h3 class="subtema"><span class="subnum">4.2</span>El uso típico: key= en sorted, max y min<span class="submin">6 min</span></h3>
+<div class="row2"><div class="col"><div class="card"><h3 class="card-tit"><i class="fa-solid fa-arrow-down-wide-short c-blue"></i> Decirle a Python por qué comparar</h3><p><code>sorted()</code>, <code>max()</code> y <code>min()</code> aceptan un parámetro <code>key</code>: una función que, para cada elemento, devuelve el valor por el que hay que comparar. Es el lugar donde las lambdas brillan.</p>
+<p>Reemplaza al patrón DSU de la clase de tuplas: en lugar de armar tuplas <code>(nota, nombre)</code>, se le dice a <code>sorted</code> “compará por la nota” con <code>key=lambda t: t[1]</code>.</p></div><aside class="alerta"><div class="alerta-tit"><i class="fa-solid fa-triangle-exclamation"></i> Alerta de error típico: pasar el valor en lugar de la función</div><p><code>sorted(alumnos, key=t[1])</code> da <code>NameError: name 't' is not defined</code>: <code>key</code> necesita una <b>función</b>, no un valor. Tiene que ser <code>key=lambda t: t[1]</code>. Lo mismo con <code>key=len()</code>: va <code>key=len</code>, sin paréntesis.</p></aside></div><div class="col"><div class="win"><pre class="py" data-title="python — sorted, max y min con key" data-run="1">alumnos = [("Ana", 8.5), ("Luis", 6), ("Sofía", 9.25), ("Tomás", 4)]
+
+# sorted/max/min aceptan key=: una función que dice POR QUÉ comparar
+print(sorted(alumnos))                                  # por nombre (primer elemento)
+print(sorted(alumnos, key=lambda t: t[1]))              # por nota
+print(sorted(alumnos, key=lambda t: t[1], reverse=True))  # ranking
+print(max(alumnos, key=lambda t: t[1]))                 # el de mejor nota
+
+palabras = ["sol", "Biblioteca", "mar", "python"]
+print(sorted(palabras, key=len))                        # una función ya existente
+print(sorted(palabras, key=lambda p: p.lower()))        # sin distinguir mayúsculas</pre></div></div></div>
+
+<h3 class="subtema"><span class="subnum">4.3</span>map, filter y funciones como argumento<span class="submin">8 min</span></h3>
+<div class="row2"><div class="col"><div class="card"><h3 class="card-tit"><i class="fa-solid fa-diagram-project c-blue"></i> Las funciones también son valores</h3><p>En Python una función es un valor más: se puede guardar en una variable, poner en una lista o diccionario y <b>pasar como argumento</b> a otra función. Así funcionan <code>map</code> (transformar cada elemento) y <code>filter</code> (quedarse con algunos).</p>
+<p>Para casos simples, la <b>comprensión de listas</b> hace lo mismo y suele ser más legible. Conviene conocer las dos formas: <code>map</code> y <code>filter</code> aparecen mucho en código ajeno y en ciencia de datos (por ejemplo, <code>df["col"].apply(lambda x: ...)</code> en Pandas).</p></div><aside class="docente"><div class="docente-tit"><i class="fa-solid fa-chalkboard-user"></i> Nota para el docente</div><p>El diccionario de operaciones es un buen puente hacia el ejercicio de la calculadora: muestra que un menú puede ser un diccionario “símbolo → función” en vez de una cadena de <code>if/elif</code>.</p></aside></div><div class="col"><div class="win"><pre class="py" data-title="python — map y filter" data-run="1">precios = [1200, 850, 3000, 450]
+
+# map: aplica una función a cada elemento
+con_iva = list(map(lambda p: round(p * 1.21), precios))
+print(con_iva)
+
+# filter: se queda con los que cumplen la condición
+baratos = list(filter(lambda p: p &lt; 1000, precios))
+print(baratos)
+
+# lo mismo con comprensión de listas (suele leerse mejor)
+print([round(p * 1.21) for p in precios])
+print([p for p in precios if p &lt; 1000])</pre></div><div class="win"><pre class="py" data-title="python — funciones como argumento y en diccionarios" data-run="1">def aplicar_a_todos(funcion, lista):
+    """Devuelve una lista nueva con funcion aplicada a cada elemento."""
+    resultado = []
+    for x in lista:
+        resultado.append(funcion(x))
+    return resultado
+
+def sumar(a, b):
+    return a + b
+
+# Programa principal
+print(aplicar_a_todos(lambda x: x * 2, [1, 2, 3]))
+print(aplicar_a_todos(str.upper, ["ana", "luis"]))   # un método como función
+
+operaciones = {                        # diccionario de funciones
+    "+": sumar,
+    "-": lambda a, b: a - b,
+    "*": lambda a, b: a * b,
+    "/": lambda a, b: a / b if b != 0 else None,
+}
+for simbolo in operaciones:
+    print(f"8 {simbolo} 2 =", operaciones[simbolo](8, 2))</pre></div></div></div>
+</section>
+<section id="m5" class="seccion">
+<header class="sec-head"><div class="sec-tit"><i class="fa-solid fa-dumbbell"></i><h2>Módulo 5: Práctica progresiva</h2><span class="sec-sub">| Del TP 6 al sistema integrador</span></div><div class="pills"><span class="pill"><i class="fa-regular fa-clock"></i> 35 min</span><span class="pill"><i class="fa-solid fa-laptop-code"></i> Práctica</span></div></header>
+<div class="row2"><div class="col"><div class="card"><h3 class="card-tit"><i class="fa-solid fa-route c-blue"></i> Cómo usar esta práctica</h3><p>Los ejercicios salen del <b>TP 6</b> de la guía, del capítulo de Py4E y de las guías de ejercicios de funciones. Cada uno tiene editor, pista y solución explicada; los que usan <code>input()</code> traen sus <b>datos de entrada</b>.</p>
+<p>Todas las soluciones respetan las reglas de la cátedra: funciones antes del programa principal, una tarea por función, nada de <code>input()</code>/<code>print()</code> en las funciones de cálculo y un solo <code>return</code> fuera de los ciclos.</p>
+<div class="niveles"><span class="badge b-basico"><i class="fa-solid fa-seedling"></i> Básico: 7'</span><span class="badge b-intermedio"><i class="fa-solid fa-layer-group"></i> Intermedio: 10'</span><span class="badge b-avanzado"><i class="fa-solid fa-rocket"></i> Avanzado: 10'</span><span class="badge b-dios"><i class="fa-solid fa-crown"></i> Nivel Dios: 8'</span></div></div></div>
+<div class="col"><aside class="docente"><div class="docente-tit"><i class="fa-solid fa-chalkboard-user"></i> Nota para el docente</div><p><b>Dinámica sugerida:</b> parejas que se rotan los roles. Resolvé en vivo <b>B1</b> (una función que reutiliza otra) e <b>I2</b> (la búsqueda sin <code>return</code> en el ciclo, que suele generar discusión). <b>D2</b> es el integrador de la guía: conviene dejarlo como tarea y revisarlo la clase siguiente.</p></aside></div></div>
+<h3 class="nivel-tit c-green"><i class="fa-solid fa-seedling"></i> Nivel básico: funciones que reutilizan funciones</h3>
+<div class="ej-grid"><article class="ej n-basico" id="b1">
+  <div class="ej-head"><span class="ej-id">B1</span><h4>Multiplicar con sumas y potencia con multiplicaciones</h4><span class="badge b-basico"><i class="fa-solid fa-seedling"></i> Básico</span></div>
+  <div class="ej-enun"><p>(TP 6, ejercicios 1 y 2) Escribí <code>multiplicar(a, b)</code>, que calcule <code>a * b</code> usando <b>solo sumas</b> (4 * 3 = 4 + 4 + 4), y <code>potencia(a, b)</code>, que calcule <code>a</code> elevado a <code>b</code> (con <code>b ≥ 0</code>) usando <b>la función anterior</b>. Contemplá que <code>b</code> puede ser negativo en la multiplicación.</p></div><div class="salida-esp"><span>Salida esperada</span><pre>4 * 3 = 12
+7 * -2 = -14
+5 * 0 = 0
+4 ^ 3 = 64
+2 ^ 10 = 1024
+9 ^ 0 = 1</pre></div>
+  <div class="practica"><div class="practica-bar"><span><i class="fa-solid fa-keyboard"></i> Tu solución</span><span class="practica-btns"><button class="btn-sec js-reset" type="button">Restaurar</button><button class="btn-run js-run-ej" type="button"><i class="fa-solid fa-play"></i> Ejecutar</button></span></div>
+  <textarea class="editor" spellcheck="false" data-start="def multiplicar(a, b):
+    pass
+
+def potencia(a, b):
+    pass
+
+# Programa principal
+print(multiplicar(4, 3))
+print(potencia(4, 3))
+">def multiplicar(a, b):
+    pass
+
+def potencia(a, b):
+    pass
+
+# Programa principal
+print(multiplicar(4, 3))
+print(potencia(4, 3))
+</textarea><pre class="consola" hidden></pre></div>
+  <details class="pista"><summary><i class="fa-regular fa-lightbulb"></i> Ver pista</summary><div><p>Sumá <code>a</code> tantas veces como indique <code>abs(b)</code> y, si <code>b</code> era negativo, cambiá el signo al final. Para la potencia, arrancá con <code>resultado = 1</code> y multiplicá <code>b</code> veces.</p></div></details>
+  <details class="solucion"><summary><i class="fa-solid fa-key"></i> Ver solución explicada</summary><div><ol class="pasos"><li><code>multiplicar</code>: acumulador en 0 y un <code>for</code> con <code>range(abs(b))</code> que suma <code>a</code>.</li><li>Si <code>b &lt; 0</code>, devolvé <code>-resultado</code>. Un solo <code>return</code>, al final.</li><li><code>potencia</code>: acumulador en <b>1</b> (el neutro de la multiplicación) y en cada vuelta <code>resultado = multiplicar(resultado, a)</code>.</li><li>Probá los casos borde: multiplicar por 0, potencia 0 (da 1) y un multiplicador negativo.</li><li>Fijate que <code>potencia</code> no repite código: reutiliza <code>multiplicar</code>. Esa es la idea central de la clase.</li></ol><div class="win"><pre class="py" data-title="python — solución B1" data-run="1">def multiplicar(a, b):
+    """Devuelve a * b usando solo sumas."""
+    resultado = 0
+    for _ in range(abs(b)):
+        resultado = resultado + a
+    if b &lt; 0:
+        resultado = -resultado
+    return resultado
+
+def potencia(a, b):
+    """Devuelve a elevado a b (b &gt;= 0) usando multiplicar()."""
+    resultado = 1
+    for _ in range(b):
+        resultado = multiplicar(resultado, a)
+    return resultado
+
+# Programa principal
+print("4 * 3 =", multiplicar(4, 3))
+print("7 * -2 =", multiplicar(7, -2))
+print("5 * 0 =", multiplicar(5, 0))
+print("4 ^ 3 =", potencia(4, 3))
+print("2 ^ 10 =", potencia(2, 10))
+print("9 ^ 0 =", potencia(9, 0))</pre></div></div></details>
+</article><article class="ej n-basico" id="b2">
+  <div class="ej-head"><span class="ej-id">B2</span><h4>signo, comparar y esmultiplo</h4><span class="badge b-basico"><i class="fa-solid fa-seedling"></i> Básico</span></div>
+  <div class="ej-enun"><p>(TP 6, ejercicios 4 a 6) Escribí <code>signo(n)</code>, que devuelve 1, -1 o 0; <code>comparar(a, b)</code>, que devuelve 1 si <code>a &gt; b</code>, 0 si son iguales y -1 si <code>a &lt; b</code>, <b>aprovechando</b> <code>signo</code>; y <code>esmultiplo(a, b)</code>, que devuelve <code>True</code> si <code>a</code> es múltiplo de <code>b</code>. Ojo con <code>b = 0</code>.</p></div><div class="salida-esp"><span>Salida esperada</span><pre>1 -1 0
+1 -1 0
+True False False</pre></div>
+  <div class="practica"><div class="practica-bar"><span><i class="fa-solid fa-keyboard"></i> Tu solución</span><span class="practica-btns"><button class="btn-sec js-reset" type="button">Restaurar</button><button class="btn-run js-run-ej" type="button"><i class="fa-solid fa-play"></i> Ejecutar</button></span></div>
+  <textarea class="editor" spellcheck="false" data-start="def signo(n):
+    pass
+
+def comparar(a, b):
+    pass
+
+def esmultiplo(a, b):
+    pass
+
+# Programa principal
+print(comparar(4, 2), comparar(2, 4), esmultiplo(40, 8), esmultiplo(50, 3))
+">def signo(n):
+    pass
+
+def comparar(a, b):
+    pass
+
+def esmultiplo(a, b):
+    pass
+
+# Programa principal
+print(comparar(4, 2), comparar(2, 4), esmultiplo(40, 8), esmultiplo(50, 3))
+</textarea><pre class="consola" hidden></pre></div>
+  <details class="pista"><summary><i class="fa-regular fa-lightbulb"></i> Ver pista</summary><div><p>El truco de <code>comparar</code>: el signo de <code>a - b</code> ya es la respuesta. Para <code>esmultiplo</code>, <code>a % b == 0</code>, pero solo si <code>b != 0</code>.</p></div></details>
+  <details class="solucion"><summary><i class="fa-solid fa-key"></i> Ver solución explicada</summary><div><ol class="pasos"><li><code>signo</code>: un <code>if/elif/else</code> que asigna una variable y un único <code>return</code>.</li><li><code>comparar(a, b)</code> es simplemente <code>signo(a - b)</code>: una línea, sin repetir la lógica.</li><li><code>esmultiplo</code>: con <code>b == 0</code>, <code>a % b</code> daría <code>ZeroDivisionError</code>. Por convención, solo 0 es múltiplo de 0.</li><li>Una función que devuelve <code>True</code>/<code>False</code> se puede escribir devolviendo directamente la condición: <code>return a % b == 0</code>.</li></ol><div class="win"><pre class="py" data-title="python — solución B2" data-run="1">def signo(n):
+    """Devuelve 1, -1 o 0 según el signo de n."""
+    if n &gt; 0:
+        resultado = 1
+    elif n &lt; 0:
+        resultado = -1
+    else:
+        resultado = 0
+    return resultado
+
+def comparar(a, b):
+    """1 si a &gt; b, 0 si son iguales, -1 si a &lt; b."""
+    return signo(a - b)
+
+def esmultiplo(a, b):
+    """True si a es múltiplo de b."""
+    if b == 0:
+        resultado = a == 0
+    else:
+        resultado = a % b == 0
+    return resultado
+
+# Programa principal
+print(signo(15), signo(-3), signo(0))
+print(comparar(4, 2), comparar(2, 4), comparar(3, 3))
+print(esmultiplo(40, 8), esmultiplo(50, 3), esmultiplo(5, 0))</pre></div></div></details>
+</article></div>
+<h3 class="nivel-tit c-orange"><i class="fa-solid fa-layer-group"></i> Nivel intermedio: separar cálculo de entrada y salida</h3>
+<div class="ej-grid"><article class="ej n-intermedio" id="i1">
+  <div class="ej-head"><span class="ej-id">I1</span><h4>Salario y calificación (Py4E)</h4><span class="badge b-intermedio"><i class="fa-solid fa-layer-group"></i> Intermedio</span></div>
+  <div class="ej-enun"><p>(Py4E, ejercicios 6 y 7) Escribí <code>calculo_salario(horas, tarifa)</code>, que pague las horas por encima de 40 a tarifa y media, y <code>calcula_calificacion(puntuacion)</code>, que devuelva la calificación como cadena según la tabla. El programa principal lee los datos, valida con <code>try/except</code> y muestra los resultados.</p><div class="tabla-wrap"><table class="tabla"><thead><tr><th>Puntuación</th><th>Calificación</th></tr></thead><tbody><tr><td>&gt; 0.9</td><td>Sobresaliente</td></tr><tr><td>&gt; 0.8</td><td>Notable</td></tr><tr><td>&gt; 0.7</td><td>Bien</td></tr><tr><td>&gt; 0.6</td><td>Suficiente</td></tr><tr><td>≤ 0.6</td><td>Insuficiente</td></tr></tbody></table></div><p>Una puntuación que no es número, o que está fuera de 0 a 1, muestra <code>Puntuación incorrecta</code>.</p></div>
+  <div class="practica"><div class="practica-bar"><span><i class="fa-solid fa-keyboard"></i> Tu solución</span><span class="practica-btns"><button class="btn-sec js-reset" type="button">Restaurar</button><button class="btn-run js-run-ej" type="button"><i class="fa-solid fa-play"></i> Ejecutar</button></span></div>
+  <textarea class="editor" spellcheck="false" data-start="def calculo_salario(horas, tarifa):
+    pass
+
+def calcula_calificacion(puntuacion):
+    pass
+
+# Programa principal
+">def calculo_salario(horas, tarifa):
+    pass
+
+def calcula_calificacion(puntuacion):
+    pass
+
+# Programa principal
+</textarea><label class="ej-ent-lbl">Datos de entrada para <code>input()</code>, uno por línea<textarea class="ej-ent" rows="5" spellcheck="false">45
+10
+0.95
+perfecto
+10.0
+0.75
+0.5</textarea></label><pre class="consola" hidden></pre></div>
+  <details class="pista"><summary><i class="fa-regular fa-lightbulb"></i> Ver pista</summary><div><p>Las funciones no hacen <code>input()</code> ni <code>print()</code>: solo calculan. La lectura y la validación quedan en el programa principal.</p></div></details>
+  <details class="solucion"><summary><i class="fa-solid fa-key"></i> Ver solución explicada</summary><div><ol class="pasos"><li><code>calculo_salario</code>: si <code>horas &gt; 40</code>, se pagan 40 normales más <code>(horas - 40) * tarifa * 1.5</code>.</li><li><code>calcula_calificacion</code>: <code>if/elif</code> de mayor a menor, guardando la calificación en una variable.</li><li>En el programa principal, envolvé <code>float(input())</code> en <code>try/except ValueError</code>.</li><li>Validá el rango 0 a 1 <b>fuera</b> de la función de calificación, o devolvé un texto especial desde ella.</li><li>Para probar varias puntuaciones seguidas, un <code>for</code> que lea cinco valores.</li></ol><div class="win"><pre class="py" data-title="python — solución I1" data-run="1" data-ent="45
+10
+0.95
+perfecto
+10.0
+0.75
+0.5">def calculo_salario(horas, tarifa):
+    """Paga tarifa y media por las horas que superan 40."""
+    if horas &gt; 40:
+        salario = 40 * tarifa + (horas - 40) * tarifa * 1.5
+    else:
+        salario = horas * tarifa
+    return salario
+
+def calcula_calificacion(puntuacion):
+    """Devuelve la calificación para una puntuación entre 0 y 1."""
+    if puntuacion &gt; 0.9:
+        calificacion = "Sobresaliente"
+    elif puntuacion &gt; 0.8:
+        calificacion = "Notable"
+    elif puntuacion &gt; 0.7:
+        calificacion = "Bien"
+    elif puntuacion &gt; 0.6:
+        calificacion = "Suficiente"
+    else:
+        calificacion = "Insuficiente"
+    return calificacion
+
+# Programa principal
+horas = float(input("Introduzca Horas: "))
+tarifa = float(input("Introduzca Tarifa: "))
+print("Salario:", calculo_salario(horas, tarifa))
+
+for _ in range(5):
+    try:
+        p = float(input("Introduzca puntuación: "))
+        if 0 &lt;= p &lt;= 1:
+            print(calcula_calificacion(p))
+        else:
+            print("Puntuación incorrecta")
+    except ValueError:
+        print("Puntuación incorrecta")</pre></div></div></details>
+</article><article class="ej n-intermedio" id="i2">
+  <div class="ej-head"><span class="ej-id">I2</span><h4>Funciones sobre listas, sin return en el ciclo</h4><span class="badge b-intermedio"><i class="fa-solid fa-layer-group"></i> Intermedio</span></div>
+  <div class="ej-enun"><p>Escribí y combiná: <code>es_aprobada(nota, minimo=6)</code>; <code>contar_aprobadas(notas)</code> y <code>filtrar_aprobadas(notas)</code>, que <b>usen</b> <code>es_aprobada</code>; <code>buscar(lista, elemento)</code>, que devuelva la <b>posición</b> de la primera aparición o -1, <b>sin</b> <code>return</code> dentro del ciclo y sin <code>index()</code>; y <code>eliminar_repetidos(lista)</code>, que devuelva una lista nueva sin repetidos manteniendo el orden.</p></div><div class="salida-esp"><span>Salida esperada</span><pre>Aprobadas: 5 [7, 9, 6, 9, 10]
+Con mínimo 4: 7
+Posición del 9: 2
+Posición del 5: -1
+Sin repetidos: [7, 4, 9, 6, 2, 10]
+Original intacta: [7, 4, 9, 6, 2, 9, 10, 4]</pre></div>
+  <div class="practica"><div class="practica-bar"><span><i class="fa-solid fa-keyboard"></i> Tu solución</span><span class="practica-btns"><button class="btn-sec js-reset" type="button">Restaurar</button><button class="btn-run js-run-ej" type="button"><i class="fa-solid fa-play"></i> Ejecutar</button></span></div>
+  <textarea class="editor" spellcheck="false" data-start="def es_aprobada(nota, minimo=6):
+    pass
+
+# Programa principal
+notas = [7, 4, 9, 6, 2, 9, 10, 4]
+">def es_aprobada(nota, minimo=6):
+    pass
+
+# Programa principal
+notas = [7, 4, 9, 6, 2, 9, 10, 4]
+</textarea><pre class="consola" hidden></pre></div>
+  <details class="pista"><summary><i class="fa-regular fa-lightbulb"></i> Ver pista</summary><div><p>Para <code>buscar</code>, un <code>while</code> con dos condiciones: <code>while i &lt; len(lista) and lista[i] != elemento</code>. Al salir, si <code>i</code> llegó al final, no estaba.</p></div></details>
+  <details class="solucion"><summary><i class="fa-solid fa-key"></i> Ver solución explicada</summary><div><ol class="pasos"><li><code>es_aprobada</code> devuelve directamente <code>nota &gt;= minimo</code>. El parámetro por defecto permite cambiar el criterio: <code>es_aprobada(n, 4)</code>.</li><li><code>contar_aprobadas</code> y <code>filtrar_aprobadas</code> llaman a <code>es_aprobada</code> en lugar de repetir la comparación.</li><li><code>buscar</code>: el <code>while</code> se detiene solo (por encontrar o por llegar al final). Un único <code>return</code>.</li><li><code>eliminar_repetidos</code>: lista nueva vacía y <code>append</code> solo si el elemento <code>not in</code> la nueva. La original no se modifica.</li><li>Pasale <code>minimo</code> por nombre para mostrar que el criterio cambia sin tocar las funciones.</li></ol><div class="win"><pre class="py" data-title="python — solución I2" data-run="1">def es_aprobada(nota, minimo=6):
+    return nota &gt;= minimo
+
+def contar_aprobadas(notas, minimo=6):
+    cant = 0
+    for n in notas:
+        if es_aprobada(n, minimo):
+            cant += 1
+    return cant
+
+def filtrar_aprobadas(notas, minimo=6):
+    aprobadas = []
+    for n in notas:
+        if es_aprobada(n, minimo):
+            aprobadas.append(n)
+    return aprobadas
+
+def buscar(lista, elemento):
+    """Posición de la primera aparición, o -1 si no está."""
+    i = 0
+    while i &lt; len(lista) and lista[i] != elemento:
+        i += 1
+    if i == len(lista):
+        i = -1
+    return i
+
+def eliminar_repetidos(lista):
+    """Lista nueva sin repetidos, en el orden original."""
+    unicos = []
+    for x in lista:
+        if x not in unicos:
+            unicos.append(x)
+    return unicos
+
+# Programa principal
+notas = [7, 4, 9, 6, 2, 9, 10, 4]
+print("Aprobadas:", contar_aprobadas(notas), filtrar_aprobadas(notas))
+print("Con mínimo 4:", contar_aprobadas(notas, minimo=4))
+print("Posición del 9:", buscar(notas, 9))
+print("Posición del 5:", buscar(notas, 5))
+print("Sin repetidos:", eliminar_repetidos(notas))
+print("Original intacta:", notas)</pre></div></div></details>
+</article></div>
+<h3 class="nivel-tit c-red"><i class="fa-solid fa-rocket"></i> Nivel avanzado: lambdas y manejo de dígitos</h3>
+<div class="ej-grid"><article class="ej n-avanzado" id="a1">
+  <div class="ej-head"><span class="ej-id">A1</span><h4>Ranking y descuentos con lambdas</h4><span class="badge b-avanzado"><i class="fa-solid fa-rocket"></i> Avanzado</span></div>
+  <div class="ej-enun"><p>Con la lista <code>alumnos</code>: (1) mostrá el ranking por promedio, de mayor a menor, con <code>sorted</code> y una lambda; (2) el alumno con el promedio más alto, con <code>max</code>; (3) los nombres de los aprobados (promedio ≥ 6) en mayúsculas, combinando <code>filter</code> y <code>map</code>. Después escribí <code>calcular_descuento(precio, tipo_cliente="regular")</code> usando un <b>diccionario de lambdas</b>: <code>"vip"</code> 20 %, <code>"regular"</code> 10 % y cualquier otro tipo, sin descuento.</p></div><div class="salida-esp"><span>Salida esperada</span><pre>1. Sofía  9.33
+2. Ana    8.00
+3. Tomás  6.00
+4. Luis   5.00
+Mejor promedio: Sofía
+Aprobados: ['ANA', 'SOFÍA', 'TOMÁS']
+8000.0 9000.0 10000</pre></div>
+  <div class="practica"><div class="practica-bar"><span><i class="fa-solid fa-keyboard"></i> Tu solución</span><span class="practica-btns"><button class="btn-sec js-reset" type="button">Restaurar</button><button class="btn-run js-run-ej" type="button"><i class="fa-solid fa-play"></i> Ejecutar</button></span></div>
+  <textarea class="editor" spellcheck="false" data-start="alumnos = [
+    {&quot;nombre&quot;: &quot;Ana&quot;, &quot;notas&quot;: [8, 9, 7]},
+    {&quot;nombre&quot;: &quot;Luis&quot;, &quot;notas&quot;: [5, 6, 4]},
+    {&quot;nombre&quot;: &quot;Sofía&quot;, &quot;notas&quot;: [10, 9, 9]},
+    {&quot;nombre&quot;: &quot;Tomás&quot;, &quot;notas&quot;: [6, 7, 5]},
+]
+">alumnos = [
+    {"nombre": "Ana", "notas": [8, 9, 7]},
+    {"nombre": "Luis", "notas": [5, 6, 4]},
+    {"nombre": "Sofía", "notas": [10, 9, 9]},
+    {"nombre": "Tomás", "notas": [6, 7, 5]},
+]
+</textarea><pre class="consola" hidden></pre></div>
+  <details class="pista"><summary><i class="fa-regular fa-lightbulb"></i> Ver pista</summary><div><p>Escribí primero <code>promedio(notas)</code> con <code>def</code> y usala adentro de las lambdas: <code>key=lambda a: promedio(a["notas"])</code>. Para el descuento, <code>dict.get(tipo, lambda p: p)</code> devuelve una función “sin descuento” si el tipo no existe.</p></div></details>
+  <details class="solucion"><summary><i class="fa-solid fa-key"></i> Ver solución explicada</summary><div><ol class="pasos"><li><code>promedio(notas)</code> con <code>def</code>: se usa en varios lugares, así que merece nombre propio.</li><li>Ranking: <code>sorted(alumnos, key=lambda a: promedio(a["notas"]), reverse=True)</code>.</li><li>Mejor alumno: la misma lambda en <code>max(alumnos, key=...)</code>.</li><li>Aprobados: <code>filter</code> con la condición y <code>map</code> con <code>a["nombre"].upper()</code>, convertido a <code>list</code>.</li><li>Descuentos: diccionario <code>{"vip": lambda p: p * 0.8, "regular": lambda p: p * 0.9}</code> y <code>get</code> con una lambda identidad por defecto.</li></ol><div class="win"><pre class="py" data-title="python — solución A1" data-run="1">def promedio(notas):
+    return sum(notas) / len(notas)
+
+def calcular_descuento(precio, tipo_cliente="regular"):
+    """Aplica el descuento según el tipo de cliente."""
+    reglas = {
+        "vip": lambda p: p * 0.80,
+        "regular": lambda p: p * 0.90,
+    }
+    aplicar = reglas.get(tipo_cliente, lambda p: p)   # otro tipo: sin descuento
+    return round(aplicar(precio), 2)
+
+# Programa principal
+alumnos = [
+    {"nombre": "Ana", "notas": [8, 9, 7]},
+    {"nombre": "Luis", "notas": [5, 6, 4]},
+    {"nombre": "Sofía", "notas": [10, 9, 9]},
+    {"nombre": "Tomás", "notas": [6, 7, 5]},
+]
+
+ranking = sorted(alumnos, key=lambda a: promedio(a["notas"]), reverse=True)
+for puesto, a in enumerate(ranking, start=1):
+    print(f"{puesto}. {a['nombre']:&lt;6} {promedio(a['notas']):.2f}")
+
+mejor = max(alumnos, key=lambda a: promedio(a["notas"]))
+print("Mejor promedio:", mejor["nombre"])
+
+aprobados = list(map(lambda a: a["nombre"].upper(),
+                     filter(lambda a: promedio(a["notas"]) &gt;= 6, alumnos)))
+print("Aprobados:", aprobados)
+
+print(calcular_descuento(10000, "vip"), calcular_descuento(10000), calcular_descuento(10000, "nuevo"))</pre></div></div></details>
+</article><article class="ej n-avanzado" id="a2">
+  <div class="ej-head"><span class="ej-id">A2</span><h4>Extraer un dígito y el dígito central</h4><span class="badge b-avanzado"><i class="fa-solid fa-rocket"></i> Avanzado</span></div>
+  <div class="ej-enun"><p>(TP 6, ejercicios 10 y 11) Escribí <code>extraerdigito(numero, posicion)</code>: la cifra de la derecha es la posición 0; devolvé -1 si no existe; el número puede ser negativo. Después, <code>digitocentral(numero)</code>, que devuelve el dígito central si la cantidad de dígitos es impar y -1 si es par, <b>reutilizando</b> <code>extraerdigito</code> y una función <code>contar_digitos</code>. Resolvelo con aritmética (<code>//</code> y <code>%</code>), sin convertir a cadena.</p></div><div class="salida-esp"><span>Salida esperada</span><pre>4 5 -1
+9
+3 -1 7</pre></div>
+  <div class="practica"><div class="practica-bar"><span><i class="fa-solid fa-keyboard"></i> Tu solución</span><span class="practica-btns"><button class="btn-sec js-reset" type="button">Restaurar</button><button class="btn-run js-run-ej" type="button"><i class="fa-solid fa-play"></i> Ejecutar</button></span></div>
+  <textarea class="editor" spellcheck="false" data-start="def extraerdigito(numero, posicion):
+    pass
+
+def contar_digitos(numero):
+    pass
+
+def digitocentral(numero):
+    pass
+
+# Programa principal
+print(extraerdigito(12345, 1), extraerdigito(12345, 8))
+print(digitocentral(12345), digitocentral(123456))
+">def extraerdigito(numero, posicion):
+    pass
+
+def contar_digitos(numero):
+    pass
+
+def digitocentral(numero):
+    pass
+
+# Programa principal
+print(extraerdigito(12345, 1), extraerdigito(12345, 8))
+print(digitocentral(12345), digitocentral(123456))
+</textarea><pre class="consola" hidden></pre></div>
+  <details class="pista"><summary><i class="fa-regular fa-lightbulb"></i> Ver pista</summary><div><p>Para llegar a la cifra de la posición <code>p</code>, dividí por 10 (división entera) <code>p</code> veces y quedate con <code>% 10</code>. Trabajá con <code>abs(numero)</code> para que el signo no moleste.</p></div></details>
+  <details class="solucion"><summary><i class="fa-solid fa-key"></i> Ver solución explicada</summary><div><ol class="pasos"><li><code>contar_digitos</code>: con <code>n = abs(numero)</code>, contá cuántas veces podés hacer <code>n //= 10</code> hasta llegar a 0. El 0 tiene un dígito.</li><li><code>extraerdigito</code>: si la posición es negativa o no es menor que la cantidad de dígitos, -1. Si no, <code>(abs(numero) // 10 ** posicion) % 10</code>.</li><li><code>digitocentral</code>: si la cantidad es par, -1; si es impar, la posición central es <code>cantidad // 2</code>.</li><li>Ninguna función usa <code>str()</code> ni <code>len()</code>: el ejercicio entrena el manejo de dígitos con operadores.</li></ol><div class="win"><pre class="py" data-title="python — solución A2" data-run="1">def contar_digitos(numero):
+    """Cantidad de dígitos de un entero (el 0 tiene uno)."""
+    n = abs(numero)
+    cant = 1
+    while n &gt;= 10:
+        n = n // 10
+        cant += 1
+    return cant
+
+def extraerdigito(numero, posicion):
+    """Dígito en la posición indicada (0 = unidades), o -1 si no existe."""
+    if posicion &lt; 0 or posicion &gt;= contar_digitos(numero):
+        digito = -1
+    else:
+        digito = (abs(numero) // 10 ** posicion) % 10
+    return digito
+
+def digitocentral(numero):
+    """Dígito central si la cantidad de dígitos es impar; -1 si es par."""
+    cant = contar_digitos(numero)
+    if cant % 2 == 0:
+        central = -1
+    else:
+        central = extraerdigito(numero, cant // 2)
+    return central
+
+# Programa principal
+print(extraerdigito(12345, 1), extraerdigito(12345, 0), extraerdigito(12345, 8))
+print(extraerdigito(-907, 2))
+print(digitocentral(12345), digitocentral(123456), digitocentral(-7))</pre></div></div></details>
+</article></div>
+<h3 class="nivel-tit c-purple"><i class="fa-solid fa-crown"></i> Nivel Dios: algoritmos numéricos y sistema integrador</h3>
+<div class="ej-grid dios"><article class="ej n-dios" id="d1">
+  <div class="ej-head"><span class="ej-id">D1</span><h4>MCD por restas y raíz cuadrada de Newton</h4><span class="badge b-dios"><i class="fa-solid fa-crown"></i> Nivel Dios</span></div>
+  <div class="ej-enun"><p>(TP 6, ejercicios 7 y 8) Escribí <code>mcd(x, y)</code> basándote en: MCD(X, X) = X; MCD(X, Y) = MCD(Y, X); si X &gt; Y, MCD(X, Y) = MCD(X − Y, Y). Usala para <code>mcm(x, y)</code>. Después, <code>raiz_newton(n, tolerancia=0.0001)</code>, que aplique la fórmula de Newton <code>a = (a + n / a) / 2</code> desde <code>a = n / 2</code> hasta que dos aproximaciones sucesivas difieran menos que la tolerancia, y que devuelva la raíz y la cantidad de iteraciones.</p></div>
+  <div class="practica"><div class="practica-bar"><span><i class="fa-solid fa-keyboard"></i> Tu solución</span><span class="practica-btns"><button class="btn-sec js-reset" type="button">Restaurar</button><button class="btn-run js-run-ej" type="button"><i class="fa-solid fa-play"></i> Ejecutar</button></span></div>
+  <textarea class="editor" spellcheck="false" data-start="def mcd(x, y):
+    pass
+
+def raiz_newton(n, tolerancia=0.0001):
+    pass
+
+# Programa principal
+print(mcd(40, 15))
+">def mcd(x, y):
+    pass
+
+def raiz_newton(n, tolerancia=0.0001):
+    pass
+
+# Programa principal
+print(mcd(40, 15))
+</textarea><pre class="consola" hidden></pre></div>
+  <details class="pista"><summary><i class="fa-regular fa-lightbulb"></i> Ver pista</summary><div><p>El MCD se resuelve con un <code>while x != y</code> que resta el menor al mayor. Para Newton, guardá la aproximación anterior antes de calcular la nueva y comparalas con <code>abs()</code>.</p></div></details>
+  <details class="solucion"><summary><i class="fa-solid fa-key"></i> Ver solución explicada</summary><div><ol class="pasos"><li><code>mcd</code>: mientras <code>x != y</code>, al mayor le restás el menor. Cuando son iguales, ese es el MCD. Guardián: si alguno es 0, el MCD es el otro.</li><li><code>mcm(x, y) = x * y // mcd(x, y)</code>: una función que reutiliza otra.</li><li><code>raiz_newton</code>: <code>anterior = n / 2</code>, calcular <code>actual</code>, y repetir mientras <code>abs(actual - anterior) &gt;= tolerancia</code>.</li><li>Devolver <code>actual, iteraciones</code>: una tupla con dos resultados.</li><li>El parámetro por defecto permite pedir más precisión sin cambiar la función: <code>raiz_newton(2, tolerancia=1e-10)</code>.</li></ol><div class="tabla-wrap"><table class="tabla traza"><thead><tr><th>x</th><th>y</th><th>Operación</th></tr></thead><tbody><tr><td>40</td><td>15</td><td>x &gt; y → x = 40 − 15</td></tr><tr><td>25</td><td>15</td><td>x &gt; y → x = 25 − 15</td></tr><tr><td>10</td><td>15</td><td>y &gt; x → y = 15 − 10</td></tr><tr><td>10</td><td>5</td><td>x &gt; y → x = 10 − 5</td></tr><tr><td>5</td><td>5</td><td>iguales: MCD = 5</td></tr></tbody></table></div><div class="win"><pre class="py" data-title="python — solución D1" data-run="1">def mcd(x, y):
+    """Máximo común divisor de dos enteros no negativos, por restas sucesivas."""
+    if x == 0 or y == 0:
+        resultado = x + y
+    else:
+        while x != y:
+            if x &gt; y:
+                x = x - y
+            else:
+                y = y - x
+        resultado = x
+    return resultado
+
+def mcm(x, y):
+    return x * y // mcd(x, y)
+
+def raiz_newton(n, tolerancia=0.0001):
+    """Raíz cuadrada aproximada de n &gt; 0. Devuelve (raiz, iteraciones)."""
+    anterior = n / 2
+    actual = (anterior + n / anterior) / 2
+    iteraciones = 1
+    while abs(actual - anterior) &gt;= tolerancia:
+        anterior = actual
+        actual = (anterior + n / anterior) / 2
+        iteraciones += 1
+    return actual, iteraciones
+
+# Programa principal
+print("MCD(40, 15) =", mcd(40, 15))
+print("MCD(17, 5) =", mcd(17, 5))
+print("mcm(4, 6) =", mcm(4, 6))
+for n in (2, 25, 1000):
+    r, it = raiz_newton(n)
+    print(f"raíz de {n} ≈ {r:.6f} en {it} iteraciones")
+r, it = raiz_newton(2, tolerancia=1e-12)
+print(f"raíz de 2 con más precisión ≈ {r:.12f} en {it} iteraciones")</pre></div></div></details>
+</article><article class="ej n-dios" id="d2">
+  <div class="ej-head"><span class="ej-id">D2</span><h4>Sistema de gestión de alumnos (integrador)</h4><span class="badge b-dios"><i class="fa-solid fa-crown"></i> Nivel Dios</span></div>
+  <div class="ej-enun"><p>(Guía, ejercicio 30) Construí un sistema con menú que guarde los alumnos en un diccionario <code>{nombre: [notas]}</code> y permita: <b>1</b> agregar alumno (nombre y notas separadas por comas, validadas), <b>2</b> mostrar alumnos con su promedio y si aprueba, <b>3</b> buscar por nombre, <b>4</b> ranking de promedios, <b>5</b> eliminar alumno, <b>0</b> salir. Separá en las funciones sugeridas: <code>mostrar_menu()</code>, <code>leer_notas()</code>, <code>agregar_alumno(datos)</code>, <code>mostrar_alumnos(datos)</code>, <code>calcular_promedio(notas)</code>, <code>esta_aprobado(notas)</code>, <code>buscar_alumno(datos, nombre)</code>, <code>ranking(datos)</code> y <code>eliminar_alumno(datos, nombre)</code>.</p></div>
+  <div class="practica"><div class="practica-bar"><span><i class="fa-solid fa-keyboard"></i> Tu solución</span><span class="practica-btns"><button class="btn-sec js-reset" type="button">Restaurar</button><button class="btn-run js-run-ej" type="button"><i class="fa-solid fa-play"></i> Ejecutar</button></span></div>
+  <textarea class="editor" spellcheck="false" data-start="def mostrar_menu():
+    return &quot;1) Agregar  2) Mostrar  3) Buscar  4) Ranking  5) Eliminar  0) Salir&quot;
+
+# completá las demás funciones
+
+# Programa principal
+datos = {}
+">def mostrar_menu():
+    return "1) Agregar  2) Mostrar  3) Buscar  4) Ranking  5) Eliminar  0) Salir"
+
+# completá las demás funciones
+
+# Programa principal
+datos = {}
+</textarea><label class="ej-ent-lbl">Datos de entrada para <code>input()</code>, uno por línea<textarea class="ej-ent" rows="5" spellcheck="false">1
+Ana
+8,9,7
+1
+Luis
+5,x,4
+5,6,4
+1
+Sofía
+10,9,9
+2
+4
+3
+sofía
+5
+luis
+7
+4
+0</textarea></label><pre class="consola" hidden></pre></div>
+  <details class="pista"><summary><i class="fa-regular fa-lightbulb"></i> Ver pista</summary><div><p>Las funciones que calculan (<code>calcular_promedio</code>, <code>esta_aprobado</code>, <code>ranking</code>, <code>buscar_alumno</code>) no hacen <code>print</code>: devuelven. Solo <code>mostrar_alumnos</code> muestra, y solo <code>leer_notas</code> y el menú leen. Para buscar sin distinguir mayúsculas, recorré las claves comparando con <code>.lower()</code>.</p></div></details>
+  <details class="solucion"><summary><i class="fa-solid fa-key"></i> Ver solución explicada</summary><div><ol class="pasos"><li><code>mostrar_menu()</code> <b>devuelve</b> el texto del menú; el programa principal lo imprime.</li><li><code>leer_notas()</code> repite el <code>input()</code> hasta que todas las notas sean números entre 1 y 10, con <code>try/except</code>.</li><li><code>buscar_alumno</code> devuelve el nombre tal como está guardado (o <code>None</code>), recorriendo sin <code>return</code> dentro del ciclo.</li><li><code>ranking</code> devuelve una lista de tuplas <code>(nombre, promedio)</code> ordenada con <code>sorted(..., key=lambda t: t[1], reverse=True)</code>.</li><li><code>eliminar_alumno</code> modifica el diccionario recibido (es mutable) y devuelve <code>True</code>/<code>False</code> para que el principal informe.</li><li>El programa principal queda corto y legible: un <code>while</code> con el menú y un <code>if/elif</code> que solo llama funciones.</li></ol><div class="win"><pre class="py" data-title="python — solución D2" data-run="1" data-ent="1
+Ana
+8,9,7
+1
+Luis
+5,x,4
+5,6,4
+1
+Sofía
+10,9,9
+2
+4
+3
+sofía
+5
+luis
+7
+4
+0">def mostrar_menu():
+    return "\n1) Agregar  2) Mostrar  3) Buscar  4) Ranking  5) Eliminar  0) Salir"
+
+def leer_notas():
+    """Lee notas separadas por comas hasta que todas sean válidas (1 a 10)."""
+    notas = None
+    while notas is None:
+        texto = input("Notas separadas por comas: ")
+        try:
+            candidatas = [float(x) for x in texto.split(",")]
+            if all(1 &lt;= n &lt;= 10 for n in candidatas):
+                notas = candidatas
+            else:
+                print("  Las notas van de 1 a 10")
+        except ValueError:
+            print("  Solo se admiten números")
+    return notas
+
+def calcular_promedio(notas):
+    return sum(notas) / len(notas)
+
+def esta_aprobado(notas, minimo=6):
+    return calcular_promedio(notas) &gt;= minimo
+
+def buscar_alumno(datos, nombre):
+    """Devuelve el nombre guardado que coincide (sin mayúsculas) o None."""
+    encontrado = None
+    for guardado in datos:
+        if encontrado is None and guardado.lower() == nombre.strip().lower():
+            encontrado = guardado
+    return encontrado
+
+def agregar_alumno(datos):
+    nombre = input("Nombre: ").strip()
+    if nombre == "" or buscar_alumno(datos, nombre) is not None:
+        print("  Nombre vacío o repetido")
+    else:
+        datos[nombre] = leer_notas()
+        print("  Agregado:", nombre)
+
+def mostrar_alumnos(datos):
+    if not datos:
+        print("  No hay alumnos cargados")
+    for nombre, notas in sorted(datos.items()):
+        estado = "Aprueba" if esta_aprobado(notas) else "No aprueba"
+        print(f"  {nombre:&lt;8} {calcular_promedio(notas):5.2f}  {estado}")
+
+def ranking(datos):
+    pares = [(nombre, calcular_promedio(notas)) for nombre, notas in datos.items()]
+    return sorted(pares, key=lambda t: t[1], reverse=True)
+
+def eliminar_alumno(datos, nombre):
+    guardado = buscar_alumno(datos, nombre)
+    if guardado is not None:
+        del datos[guardado]
+    return guardado is not None
+
+# Programa principal
+datos = {}
+opcion = ""
+while opcion != "0":
+    print(mostrar_menu())
+    opcion = input("Opción: ").strip()
+    if opcion == "1":
+        agregar_alumno(datos)
+    elif opcion == "2":
+        mostrar_alumnos(datos)
+    elif opcion == "3":
+        nombre = buscar_alumno(datos, input("Buscar: "))
+        print("  ", nombre, datos[nombre] if nombre else "no encontrado")
+    elif opcion == "4":
+        for puesto, (nombre, prom) in enumerate(ranking(datos), start=1):
+            print(f"  {puesto}. {nombre} ({prom:.2f})")
+    elif opcion == "5":
+        if eliminar_alumno(datos, input("Eliminar: ")):
+            print("  Eliminado")
+        else:
+            print("  No existe")
+    elif opcion != "0":
+        print("  Opción inválida")
+print("Fin del programa")</pre></div></div></details>
+</article></div>
+</section>
+<section id="cierre" class="seccion">
+<header class="sec-head"><div class="sec-tit"><i class="fa-solid fa-circle-check"></i><h2>Cierre: repaso y tarea</h2><span class="sec-sub">| ¿Qué imprime? Respondé y verificá</span></div><div class="pills"><span class="pill"><i class="fa-regular fa-clock"></i> 5 min</span><span class="pill"><i class="fa-solid fa-graduation-cap"></i> Resumen</span></div></header>
+<div class="row2"><div class="col"><div class="card"><h3 class="card-tit"><i class="fa-solid fa-bolt c-blue"></i> ¿Qué imprime?</h3><div class="quiz"><div class="q" data-exp="El orden de las definiciones no importa: manda el orden de las llamadas (Py4E, ejercicio 5)."><div class="q-num">1</div><div class="q-body"><pre class="py q-code" data-run="0" data-bare="1">def fred():
+    print("Zap")
+
+def jane():
+    print("ABC")
+
+jane()
+fred()
+jane()</pre><div class="q-ops"><button class="q-op" type="button" data-ok="0">Zap ABC Zap</button><button class="q-op" type="button" data-ok="1">ABC Zap ABC</button><button class="q-op" type="button" data-ok="0">ABC Zap jane</button><button class="q-op" type="button" data-ok="0">Zap Zap Zap</button></div><p class="q-fb" aria-live="polite"></p></div></div><div class="q" data-exp="La función imprime 10, pero no tiene return: devuelve None."><div class="q-num">2</div><div class="q-body"><pre class="py q-code" data-run="0" data-bare="1">def doble(x):
+    print(x * 2)
+
+r = doble(5)
+print(r)</pre><div class="q-ops"><button class="q-op" type="button" data-ok="0">10 y 10</button><button class="q-op" type="button" data-ok="1">10 y None</button><button class="q-op" type="button" data-ok="0">None</button><button class="q-op" type="button" data-ok="0">Error</button></div><p class="q-fb" aria-live="polite"></p></div></div><div class="q" data-exp="b toma 3 por defecto en la primera llamada y 5 en la segunda."><div class="q-num">3</div><div class="q-body"><pre class="py q-code" data-run="0" data-bare="1">def f(a, b=3):
+    return a * b
+
+print(f(2), f(2, 5))</pre><div class="q-ops"><button class="q-op" type="button" data-ok="1">6 10</button><button class="q-op" type="button" data-ok="0">6 6</button><button class="q-op" type="button" data-ok="0">2 10</button><button class="q-op" type="button" data-ok="0">Error</button></div><p class="q-fb" aria-live="polite"></p></div></div><div class="q" data-exp="Con argumentos por nombre el orden no importa: a=10, b=1."><div class="q-num">4</div><div class="q-body"><pre class="py q-code" data-run="0" data-bare="1">def f(a, b):
+    return a - b
+
+print(f(b=1, a=10))</pre><div class="q-ops"><button class="q-op" type="button" data-ok="0">-9</button><button class="q-op" type="button" data-ok="1">9</button><button class="q-op" type="button" data-ok="0">Error</button><button class="q-op" type="button" data-ok="0">1</button></div><p class="q-fb" aria-live="polite"></p></div></div><div class="q" data-exp="La lambda ordena por la nota, de mayor a menor: primero Luis."><div class="q-num">5</div><div class="q-body"><pre class="py q-code" data-run="0" data-bare="1">ordenar = sorted([("Ana", 7), ("Luis", 9)],
+                 key=lambda t: t[1], reverse=True)
+print(ordenar[0][0])</pre><div class="q-ops"><button class="q-op" type="button" data-ok="0">Ana</button><button class="q-op" type="button" data-ok="1">Luis</button><button class="q-op" type="button" data-ok="0">9</button><button class="q-op" type="button" data-ok="0">Error</button></div><p class="q-fb" aria-live="polite"></p></div></div><div class="q" data-exp="total es local de g: desaparece cuando la función termina."><div class="q-num">6</div><div class="q-body"><pre class="py q-code" data-run="0" data-bare="1">def g():
+    total = 5
+
+g()
+print(total)</pre><div class="q-ops"><button class="q-op" type="button" data-ok="0">5</button><button class="q-op" type="button" data-ok="0">None</button><button class="q-op" type="button" data-ok="0">0</button><button class="q-op" type="button" data-ok="1">NameError</button></div><p class="q-fb" aria-live="polite"></p></div></div></div><p class="q-score" id="q-score">Respondidas: 0 de 6</p></div><div class="card"><h3 class="card-tit"><i class="fa-solid fa-book c-blue"></i> ¿Qué aprendimos hoy?</h3><div class="tiles t2"><div class="tile t-blue"><div class="tile-tit"><i class="fa-solid fa-check"></i> Funciones</div><p><code>def nombre(parámetros):</code> + cuerpo indentado + <code>return</code>. Se definen antes de usarse.</p></div><div class="tile t-green"><div class="tile-tit"><i class="fa-solid fa-check"></i> Parámetros</div><p>Formales en la cabecera, reales en la llamada; posicionales, por nombre y por defecto.</p></div><div class="tile t-orange"><div class="tile-tit"><i class="fa-solid fa-check"></i> Retorno y ámbito</div><p><code>return</code> devuelve y termina; sin él, <code>None</code>. Las variables de la función son locales.</p></div><div class="tile t-purple"><div class="tile-tit"><i class="fa-solid fa-check"></i> Lambda</div><p><code>lambda x: expresión</code>, ideal para <code>key=</code>, <code>map</code> y <code>filter</code>.</p></div></div></div></div><div class="col"><div class="card"><h3 class="card-tit"><i class="fa-solid fa-house-laptop c-blue"></i> Tarea: Trabajo Práctico 6 completo</h3><p>Resolver el <b>TP 6: Funciones</b> de la guía, escribiendo cada función y su programa principal. Para la entrega en clase, según el número de grupo:</p><div class="tabla-wrap"><table class="tabla"><thead><tr><th>Número de grupo % 3</th><th>Ejercicios a presentar</th></tr></thead><tbody><tr><td>0</td><td>1, 2 y 9</td></tr><tr><td>1</td><td>4, 5 y 8</td></tr><tr><td>2</td><td>3, 7 y 11</td></tr></tbody></table></div><p class="muted">Los ejercicios 1, 2, 4 a 8, 10 y 11 están resueltos en esta guía como B1, B2, D1 y A2: úsenlos para verificar, no para copiar. El 9 (días hasta fin de mes) y el 3 (columna de asteriscos) quedan para trabajar en grupo.</p></div><div class="card"><h3 class="card-tit"><i class="fa-solid fa-clipboard-check c-blue"></i> Checklist de una buena función</h3><ul class="lista-ok">
+<li>¿El nombre tiene un verbo que describe la tarea?</li><li>¿Hace <b>una sola</b> cosa?</li>
+<li>¿Recibe todo lo que necesita por parámetro (sin variables de afuera)?</li><li>¿Devuelve el resultado con <code>return</code> en lugar de imprimirlo?</li>
+<li>¿Tiene un único <code>return</code>, fuera de los ciclos?</li><li>¿Está escrita antes de <code># Programa principal</code>?</li>
+<li>¿Tiene un docstring que explique qué hace?</li></ul></div><div class="card"><h3 class="card-tit"><i class="fa-solid fa-link c-blue"></i> Material complementario</h3><ul class="lista-ok"><li>Severance, C. <i>Python para todos</i>, capítulo 4: Funciones. <a href="https://es.py4e.com/" target="_blank" rel="noopener">es.py4e.com</a></li>
+<li><a href="https://docs.python.org/es/3/tutorial/controlflow.html#defining-functions" target="_blank" rel="noopener">Tutorial oficial de Python: definir funciones</a> y <a href="https://docs.python.org/es/3/tutorial/controlflow.html#lambda-expressions" target="_blank" rel="noopener">expresiones lambda</a></li>
+<li><a href="https://www.w3schools.com/python/python_functions.asp" target="_blank" rel="noopener">w3schools: Python Functions</a> y <a href="https://www.w3schools.com/python/python_lambda.asp" target="_blank" rel="noopener">Python Lambda</a></li>
+<li>Joyanes Aguilar, L. <i>Fundamentos de Programación</i> (bibliografía básica de la guía).</li></ul></div><aside class="docente"><div class="docente-tit"><i class="fa-solid fa-chalkboard-user"></i> Nota para el docente</div><p>Usá el “¿Qué imprime?” como ticket de salida. Si fallan la 2, la clase siguiente arrancá con un <code>print</code> contra <code>return</code> en vivo: es el error conceptual que más se arrastra a los parciales.</p></aside></div></div>
+</section>
+<footer class="pie"><span><i class="fa-solid fa-graduation-cap"></i> Fundamentos de Informática, UADE. Basado en el material de la Clase 5 del Lic. Ricardo Thompson y en <i>Python para todos</i> (C. Severance).</span><span class="firma">Lic. Santiago Mendoza, MSc.</span></footer>
+</main>
+</div>
+<button class="lanzador" id="lanzador" type="button" aria-expanded="false" aria-controls="cajon"><i class="fa-solid fa-terminal"></i> Consola Python</button>
+<div class="cajon" id="cajon" role="dialog" aria-label="Consola Python">
+  <div class="cab"><strong><i class="fa-solid fa-terminal c-green"></i> Consola Python</strong><button class="btn-mini" id="cerrarCajon" type="button">Cerrar</button></div>
+  <div id="consolaLibre"></div>
+
+</div>
+<script>
+(function(){
+const FS0={};
+let FS={};
+function cargar(){FS=JSON.parse(JSON.stringify(FS0));}
+cargar();
+const avisar=()=>{clearTimeout(window.__fsT);window.__fsT=setTimeout(()=>document.dispatchEvent(new CustomEvent("fs-cambio")),30);};
+window.fsExiste=p=>Object.prototype.hasOwnProperty.call(FS,p);
+window.fsLeer=p=>FS[p];
+window.fsEscribir=(p,c)=>{FS[p]=c;avisar();};
+window.fsLista=()=>Object.keys(FS).sort();
+window.fsBorrar=p=>{delete FS[p];avisar();};
+window.fsListaTodo=()=>[...new Set([...Object.keys(FS0),...Object.keys(FS)])].sort();
+window.fsOriginal=p=>Object.prototype.hasOwnProperty.call(FS0,p)?FS0[p]:null;
+window.fsRestaurar=()=>{cargar();avisar();};
+})();
+</script>
+<script type="text/python">
+from browser import window
+import sys
+import io as _io
+_DIRS = {"", "respaldo"}
+_SOLO_LECTURA = {"solo_lectura.txt"}
+
+def _norm_ruta(ruta):
+    if not isinstance(ruta, str):
+        raise TypeError("expected str, bytes or os.PathLike object, not " + type(ruta).__name__)
+    for c in ruta:
+        if ord(c) < 32:
+            raise OSError("[Errno 22] Invalid argument: " + repr(ruta))
+    r = ruta.replace("\\", "/")
+    while r.startswith("./"):
+        r = r[2:]
+    return r
+
+def _carpeta(r):
+    return r.rsplit("/", 1)[0] if "/" in r else ""
+
+class _Archivo:
+    def __init__(self, ruta, modo="r", encoding=None, newline=None, **kw):
+        self.ruta = _norm_ruta(ruta)
+        self.modo = str(modo)
+        self.name = ruta
+        self.mode = self.modo
+        self.cerrado = False
+        if self.ruta in _DIRS:
+            raise IsADirectoryError("[Errno 21] Is a directory: '" + ruta + "'")
+        if _carpeta(self.ruta) not in _DIRS:
+            raise FileNotFoundError("[Errno 2] No such file or directory: '" + ruta + "'")
+        validos = set("rwaxtb+")
+        if not self.modo or any(c not in validos for c in self.modo) or sum(self.modo.count(c) for c in "rwax") != 1:
+            raise ValueError("invalid mode: '" + self.modo + "'")
+        escribe = any(c in self.modo for c in "wax") or "+" in self.modo
+        if escribe and self.ruta in _SOLO_LECTURA:
+            raise PermissionError("[Errno 13] Permission denied: '" + ruta + "'")
+        if "r" in self.modo:
+            if not window.fsExiste(self.ruta):
+                raise FileNotFoundError("[Errno 2] No such file or directory: '" + ruta + "'")
+            self.buf = str(window.fsLeer(self.ruta))
+        elif "a" in self.modo:
+            self.buf = str(window.fsLeer(self.ruta)) if window.fsExiste(self.ruta) else ""
+            window.fsEscribir(self.ruta, self.buf)
+        elif "x" in self.modo:
+            if window.fsExiste(self.ruta):
+                raise FileExistsError("[Errno 17] File exists: '" + ruta + "'")
+            self.buf = ""
+            window.fsEscribir(self.ruta, "")
+        else:
+            self.buf = ""
+            window.fsEscribir(self.ruta, "")
+        self.pos = len(self.buf) if "a" in self.modo else 0
+    def _chk(self, leer):
+        if self.cerrado:
+            raise ValueError("I/O operation on closed file.")
+        if leer and "r" not in self.modo and "+" not in self.modo:
+            raise _io.UnsupportedOperation("not readable")
+        if not leer and "r" in self.modo and "+" not in self.modo:
+            raise _io.UnsupportedOperation("not writable")
+    def read(self, n=-1):
+        self._chk(True)
+        r = self.buf[self.pos:] if (n is None or n < 0) else self.buf[self.pos:self.pos + n]
+        self.pos += len(r)
+        return r
+    def readline(self):
+        self._chk(True)
+        i = self.buf.find("\n", self.pos)
+        fin = len(self.buf) if i < 0 else i + 1
+        r = self.buf[self.pos:fin]
+        self.pos = fin
+        return r
+    def readlines(self, n=-1):
+        res = []
+        while True:
+            l = self.readline()
+            if not l:
+                break
+            res.append(l)
+        return res
+    def __iter__(self):
+        self._chk(True)
+        return self
+    def __next__(self):
+        l = self.readline()
+        if not l:
+            raise StopIteration
+        return l
+    def write(self, s):
+        self._chk(False)
+        if not isinstance(s, str):
+            raise TypeError("write() argument must be str, not " + type(s).__name__)
+        self.buf += s
+        self.pos = len(self.buf)
+        window.fsEscribir(self.ruta, self.buf)
+        return len(s)
+    def writelines(self, lineas):
+        for l in lineas:
+            self.write(l)
+    def close(self):
+        self.cerrado = True
+    @property
+    def closed(self):
+        return self.cerrado
+    def __enter__(self):
+        return self
+    def __exit__(self, *a):
+        self.close()
+        return False
+
+class _Path:
+    def exists(self, p):
+        r = _norm_ruta(p)
+        return r in _DIRS or bool(window.fsExiste(r))
+    def isfile(self, p):
+        return bool(window.fsExiste(_norm_ruta(p)))
+    def isdir(self, p):
+        return _norm_ruta(p) in _DIRS
+    def join(self, *partes):
+        return "/".join(str(x).rstrip("/") for x in partes if str(x) != "")
+    def getsize(self, p):
+        r = _norm_ruta(p)
+        if not window.fsExiste(r):
+            raise FileNotFoundError("[Errno 2] No such file or directory: '" + str(p) + "'")
+        return len(str(window.fsLeer(r)).encode("utf-8"))
+
+class _OS:
+    sep = "/"
+    linesep = "\n"
+    def __init__(self):
+        self.path = _Path()
+    def remove(self, p):
+        r = _norm_ruta(p)
+        if r in _DIRS:
+            raise IsADirectoryError("[Errno 21] Is a directory: '" + str(p) + "'")
+        if not window.fsExiste(r):
+            raise FileNotFoundError("[Errno 2] No such file or directory: '" + str(p) + "'")
+        if r in _SOLO_LECTURA:
+            raise PermissionError("[Errno 13] Permission denied: '" + str(p) + "'")
+        window.fsBorrar(r)
+    unlink = remove
+    def rename(self, a, b):
+        ra, rb = _norm_ruta(a), _norm_ruta(b)
+        if not window.fsExiste(ra):
+            raise FileNotFoundError("[WinError 2] El sistema no puede encontrar el archivo especificado: '" + str(a) + "' -> '" + str(b) + "'")
+        if window.fsExiste(rb):
+            raise FileExistsError("[WinError 183] No se puede crear un archivo que ya existe: '" + str(a) + "' -> '" + str(b) + "'")
+        if _carpeta(rb) not in _DIRS:
+            raise FileNotFoundError("[Errno 2] No such file or directory: '" + str(b) + "'")
+        window.fsEscribir(rb, window.fsLeer(ra))
+        window.fsBorrar(ra)
+    def replace(self, a, b):
+        ra, rb = _norm_ruta(a), _norm_ruta(b)
+        if not window.fsExiste(ra):
+            raise FileNotFoundError("[Errno 2] No such file or directory: '" + str(a) + "'")
+        if window.fsExiste(rb):
+            window.fsBorrar(rb)
+        self.rename(a, b)
+    def listdir(self, p="."):
+        r = _norm_ruta(p)
+        if r == ".":
+            r = ""
+        if r not in _DIRS:
+            raise FileNotFoundError("[Errno 2] No such file or directory: '" + str(p) + "'")
+        res = []
+        for f in window.fsLista():
+            if _carpeta(f) == r:
+                res.append(f.rsplit("/", 1)[-1])
+        for d in _DIRS:
+            if d and _carpeta(d) == r:
+                res.append(d.rsplit("/", 1)[-1])
+        return sorted(res)
+    def getcwd(self):
+        return "C:/Users/alumno/clase11"
+
+_os_sim = _OS()
+
+import types as _types
+_os_mod = _types.ModuleType("os")
+_os_real = sys.modules.get("os")
+if _os_real is not None:
+    for _k in dir(_os_real):
+        if not _k.startswith("__"):
+            try:
+                setattr(_os_mod, _k, getattr(_os_real, _k))
+            except Exception:
+                pass
+for _k in ("remove", "unlink", "rename", "replace", "listdir", "getcwd", "path", "sep", "linesep"):
+    setattr(_os_mod, _k, getattr(_os_sim, _k))
+
+def _con_os(funcion):
+    viejo = sys.modules.get("os")
+    sys.modules["os"] = _os_mod
+    try:
+        return funcion()
+    finally:
+        if viejo is not None:
+            sys.modules["os"] = viejo
+
+import re as _re
+
+_NO_ENVOLVER = {"os", "sys", "json", "math", "random", "io", "self", "string", "copy", "str", "int", "float", "list", "dict", "print", "True", "False", "None"}
+
+def _nb_(v, nombre, en_func):
+    if type(v).__name__ == "UndefinedType":
+        if en_func:
+            raise UnboundLocalError("cannot access local variable '" + nombre + "' where it is not associated with a value")
+        raise NameError("name '" + nombre + "' is not defined")
+    return v
+
+def _envolver(texto, en_func):
+    res = []
+    i = 0
+    n = len(texto)
+    while i < n:
+        c = texto[i]
+        if c == "#":
+            res.append(texto[i:])
+            break
+        if c in "\"'":
+            q = c * 3 if texto[i:i + 3] == c * 3 else c
+            j = i + len(q)
+            while j < n and texto[j:j + len(q)] != q:
+                j += 2 if texto[j] == "\\" else 1
+            j = min(n, j + len(q))
+            res.append(texto[i:j])
+            i = j
+            continue
+        if c.isalpha() or c == "_":
+            j = i
+            while j < n and (texto[j].isalnum() or texto[j] == "_"):
+                j += 1
+            nombre = texto[i:j]
+            previo = texto[i - 1] if i > 0 else ""
+            es_prefijo = j < n and texto[j] in "\"'" and nombre.lower() in ("f", "r", "b", "rb", "br", "fr", "rf", "u")
+            if es_prefijo:
+                res.append(nombre)
+                i = j
+                continue
+            if (j < n - 1 and texto[j] == "." and (texto[j + 1].isalpha() or texto[j + 1] == "_")
+                    and previo != "." and nombre not in _NO_ENVOLVER):
+                res.append("_nb_(" + nombre + ", '" + nombre + "', " + str(en_func) + ")")
+            else:
+                res.append(nombre)
+            i = j
+            continue
+        res.append(c)
+        i += 1
+    return "".join(res)
+
+def _parche_finally(src):
+    if "finally" not in src:
+        return src
+    lineas = src.split("\n")
+    pila = []
+    dentro = None
+    en_func = False
+    for i, l in enumerate(lineas):
+        s = l.strip()
+        ind = len(l) - len(l.lstrip(" \t"))
+        if s and not s.startswith("#"):
+            while pila and ind <= pila[-1]:
+                pila.pop()
+            if dentro is not None and ind <= dentro:
+                dentro = None
+        if dentro is not None and s:
+            lineas[i] = _envolver(l, en_func)
+        if s.startswith("def ") or s.startswith("async def "):
+            pila.append(ind)
+        m = _re.match(r"^(\s*)finally\s*:(.*)$", l)
+        if m:
+            dentro = ind
+            en_func = bool(pila)
+            resto = m.group(2)
+            if resto.strip() and not resto.strip().startswith("#"):
+                lineas[i] = l[:len(l) - len(resto)] + _envolver(resto, en_func)
+    return "\n".join(lineas)
+
+class _Salida:
+    def __init__(self):
+        self.partes = []
+    def write(self, s):
+        self.partes.append(str(s))
+    def flush(self):
+        pass
+
+def _ejecutar(codigo):
+    out = _Salida()
+    viejo_out, viejo_err = sys.stdout, sys.stderr
+    sys.stdout = out
+    sys.stderr = out
+    error = ""
+    linea = 0
+    try:
+        exec(codigo, {"__name__": "__main__", "open": _Archivo})
+    except BaseException as e:
+        error = type(e).__name__ + ": " + str(e)
+        try:
+            if isinstance(e, SyntaxError) and e.lineno:
+                linea = e.lineno
+            else:
+                tb = e.__traceback__
+                while tb is not None:
+                    if tb.tb_frame.f_code.co_filename in ("<string>", "exec"):
+                        linea = tb.tb_lineno
+                    tb = tb.tb_next
+        except Exception:
+            linea = 0
+    finally:
+        sys.stdout, sys.stderr = viejo_out, viejo_err
+    return [''.join(out.partes), error, linea]
+
+window.pyRun = _ejecutar
+
+class _Limite(BaseException):
+    pass
+
+def _linea_codigo(e):
+    try:
+        tb = e.__traceback__
+        ln = 0
+        while tb is not None:
+            if tb.tb_frame.f_code.co_filename == '<codigo>':
+                ln = tb.tb_lineno
+            tb = tb.tb_next
+        return ln
+    except Exception:
+        return 0
+
+def _consola(src, entradas):
+    out = []
+    feed = [str(x) for x in entradas]
+    cont = [0]
+    def _print(*args, sep=' ', end='\n', file=None, **kw):
+        txt = str(sep).join(str(a) for a in args) + str(end)
+        if file is not None:
+            file.write(txt)
+            return
+        cont[0] += 1
+        if cont[0] > 3000:
+            raise _Limite("El programa imprimió demasiadas líneas. ¿Hay un bucle infinito?")
+        out.append(txt)
+    def _input(prompt=''):
+        out.append(str(prompt))
+        if not feed:
+            raise _Limite("El programa pidió un dato más de los disponibles. Agregá líneas en «Datos de entrada».")
+        v = feed.pop(0)
+        out.append(v + '\n')
+        return v
+    ns = {'print': _print, 'input': _input, '__name__': '__main__', 'open': _Archivo}
+    tipo = ''
+    err = ''
+    linea = 0
+    try:
+        try:
+            codigo = compile(_parche_finally(src), '<codigo>', 'exec')
+        except SyntaxError:
+            codigo = compile(src, '<codigo>', 'exec')
+        ns['_nb_'] = _nb_
+        _con_os(lambda: exec(codigo, ns))
+    except _Limite as e:
+        tipo = 'Límite'
+        err = str(e)
+    except SyntaxError as e:
+        tipo = type(e).__name__
+        err = str(getattr(e, 'msg', e))
+        linea = getattr(e, 'lineno', 0) or 0
+    except BaseException as e:
+        tipo = type(e).__name__
+        err = str(e)
+        linea = _linea_codigo(e)
+    return [''.join(out), tipo, err, linea]
+
+window.pyConsola = _consola
+
+
+</script>
+<script>
+(function(){
+const KW=/\b(def|return|if|elif|else|for|while|in|not|and|or|is|import|from|as|with|break|continue|pass|None|True|False|del|try|except|lambda|global)\b/;
+const BI=/\b(print|len|range|list|sorted|sum|max|min|type|id|enumerate|str|int|float|input|open|round|set|copy)\b/;
+const RE=/(#[^\n]*)|(f?"(?:[^"\\\n]|\\.)*"|f?'(?:[^'\\\n]|\\.)*')|(^[ \t]*[A-Za-z_]\w*(?=[ \t]*(?:[+\-*\/]?=)(?!=)))|(\.[A-Za-z_]\w*(?=\())|\b(\d+(?:\.\d+)?)\b|\b([A-Za-z_]\w*)\b/gm;
+const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+function hl(src){
+  let out="",last=0,m;RE.lastIndex=0;
+  while((m=RE.exec(src))){
+    out+=esc(src.slice(last,m.index));last=RE.lastIndex;
+    if(m[1])out+=`<span class="tok-c">${esc(m[1])}</span>`;
+    else if(m[2])out+=`<span class="tok-s">${esc(m[2])}</span>`;
+    else if(m[3]){const ws=m[3].match(/^[ \t]*/)[0];const id=m[3].slice(ws.length);
+      out+=ws+(KW.test(id)?`<span class="tok-k">${id}</span>`:`<span class="tok-v">${id}</span>`);}
+    else if(m[4])out+=`.<span class="tok-m">${esc(m[4].slice(1))}</span>`;
+    else if(m[5])out+=`<span class="tok-n">${m[5]}</span>`;
+    else if(m[6]){const w=m[6];out+=KW.test(w)&&w.match(KW)[0]===w?`<span class="tok-k">${w}</span>`:(BI.test(w)&&w.match(BI)[0]===w?`<span class="tok-b">${w}</span>`:w);}
+    if(m[0].length===0)RE.lastIndex++;
+  }
+  return out+esc(src.slice(last));
+}
+
+/* ---- Python runtime (Brython) ---- */
+let pyListo=false;const espera=[];
+function marcarListo(){pyListo=true;const e=document.getElementById("py-estado");if(e){e.classList.add("listo");e.querySelector("span:last-child").textContent="Python listo para ejecutar";}
+  document.querySelectorAll("[data-espera]").forEach(b=>{b.disabled=false;b.removeAttribute("data-espera");});espera.splice(0).forEach(f=>f());}
+window.__pyListo=marcarListo;
+function correr(src,cb,ents){const go=()=>{const r=window.pyConsola(src,ents||[]);
+  const err=r[1]?(r[1]==="Límite"?r[2]:r[1]+(r[2]?": "+r[2]:"")):"";cb([r[0],err,r[3]]);};
+  if(pyListo&&window.pyConsola)go();else espera.push(go);}
+
+const AYUDAS=[
+ [/missing \d+ required positional argument/i,"Faltan argumentos en la llamada: tiene que haber uno por cada parámetro sin valor por defecto."],
+ [/positional arguments? but \d+ (was|were) given/i,"Sobran argumentos en la llamada: revisá cuántos parámetros tiene la cabecera."],
+ [/unexpected keyword argument/i,"Ese nombre de parámetro no existe en la función: revisá cómo está escrito en el def."],
+ [/NoneType/i,"Operaste con None: la función no tiene return (o hace print en lugar de return)."],
+ [/not callable/i,"Estás llamando a algo que no es una función: ¿una variable tapó su nombre (por ejemplo, max = 5)?"],
+ [/positional argument follows keyword/i,"Los argumentos posicionales van antes que los nombrados."],
+ [/UnboundLocalError|cannot access local variable/i,"Variable local usada antes de asignarla: pasá el valor como parámetro en lugar de usar el de afuera."],
+ [/NameError/i,"Nombre inexistente acá: ¿se llama antes de definir la función, o es una variable local usada afuera?"],
+ [/division by zero/i,"División por cero: agregá un guardián antes de dividir."],
+ [/IndentationError/i,"El cuerpo de la función va indentado 4 espacios respecto del def."],
+ [/SyntaxError/i,"Error de sintaxis: revisá los dos puntos del def, los paréntesis y que la lambda no tenga return."]
+];
+function entsDe(pre){return pre.dataset.ent?pre.dataset.ent.split("\n"):[];}
+function pintarSalida(pre,res){
+  pre.hidden=false;pre.innerHTML="";
+  let [out,err,linea]=res&&res.length?[res[0],res[1],res[2]]:["","",0];
+  if(out)pre.append(document.createTextNode(out));
+  if(err){const s=document.createElement("span");s.className="err";s.textContent=(linea?`Línea ${linea} → `:"")+err;pre.append(s);
+    const a=AYUDAS.find(([r])=>r.test(err));if(a){const h=document.createElement("span");h.className="ayuda";h.textContent="💡 "+a[1];pre.append(h);}}
+  if(!out&&!err){const s=document.createElement("span");s.className="meta";s.textContent="(el programa no imprimió nada)";pre.append(s);}
+}
+
+/* ---- code windows ---- */
+document.querySelectorAll("pre.py").forEach(pre=>{
+  const src=pre.textContent;pre.innerHTML=hl(src);
+  if(pre.dataset.bare)return;
+  const win=pre.parentElement,bar=document.createElement("div");bar.className="win-bar";
+  bar.innerHTML=`<span class="d"></span><span class="d"></span><span class="d"></span><span class="titulo"></span>`;
+  bar.querySelector(".titulo").textContent=pre.dataset.title||"python";
+  const copiar=document.createElement("button");copiar.textContent="Copiar";copiar.type="button";
+  copiar.onclick=()=>{const t=win.querySelector("textarea");const txt=t?t.value:src;
+    (navigator.clipboard?navigator.clipboard.writeText(txt):Promise.reject()).then(()=>{copiar.textContent="Copiado";setTimeout(()=>copiar.textContent="Copiar",1200)}).catch(()=>{copiar.textContent="No se pudo copiar"});};
+  bar.append(copiar);
+  if(pre.dataset.run==="1"){
+    const ed=document.createElement("button");ed.textContent="Editar";ed.type="button";
+    const run=document.createElement("button");run.className="run";run.type="button";run.innerHTML='<i class="fa-solid fa-play"></i> Ejecutar';
+    const salida=document.createElement("pre");salida.className="consola";salida.hidden=true;
+    ed.onclick=()=>{let t=win.querySelector("textarea");
+      if(t){pre.innerHTML=hl(t.value);t.replaceWith(pre);ed.textContent="Editar";}
+      else{t=document.createElement("textarea");t.spellcheck=false;t.value=pre.dataset.cur||src;t.rows=Math.min(24,src.split("\n").length+1);t.setAttribute("aria-label","Editor de código");pre.replaceWith(t);t.focus();ed.textContent="Ver resaltado";
+        t.addEventListener("input",()=>pre.dataset.cur=t.value);t.addEventListener("keydown",tabular);}
+    };
+    run.onclick=()=>{const t=win.querySelector("textarea");const code=t?t.value:(pre.dataset.cur||src);
+      run.disabled=true;run.innerHTML='<i class="fa-solid fa-spinner fa-spin"></i> Ejecutando';
+      setTimeout(()=>correr(code,r=>{pintarSalida(salida,r);run.disabled=false;run.innerHTML='<i class="fa-solid fa-play"></i> Ejecutar';},entsDe(pre)),30);};
+    if(pre.dataset.ent){const nt=document.createElement("div");nt.className="ent-nota";nt.innerHTML='<i class="fa-solid fa-keyboard"></i> Datos de entrada: <code></code>';nt.querySelector("code").textContent=entsDe(pre).map(x=>x===""?"⏎ (Enter)":x).join(" · ");win.append(nt);}
+    bar.append(ed,run);win.append(salida);
+  }
+  win.prepend(bar);
+});
+function tabular(e){if(e.key==="Tab"&&!e.shiftKey){e.preventDefault();const t=e.target,s=t.selectionStart;t.setRangeText("    ",s,t.selectionEnd,"end");}}
+
+/* ---- exercise editors ---- */
+document.querySelectorAll(".practica").forEach(p=>{
+  const ta=p.querySelector("textarea"),out=p.querySelector(".consola"),key="ej:"+p.closest(".ej").id;
+  try{const g=localStorage.getItem(key);if(g)ta.value=g;}catch(e){}
+  ta.addEventListener("keydown",tabular);
+  ta.addEventListener("input",()=>{try{localStorage.setItem(key,ta.value)}catch(e){}});
+  p.querySelector(".js-reset").onclick=()=>{ta.value=ta.dataset.start;try{localStorage.removeItem(key)}catch(e){};out.hidden=true;};
+  const run=p.querySelector(".js-run-ej");
+  const entTa=p.querySelector(".ej-ent");
+  run.onclick=()=>{run.disabled=true;setTimeout(()=>correr(ta.value,r=>{pintarSalida(out,r);run.disabled=false;},entTa&&entTa.value!==""?entTa.value.split("\n"):[]),30);};
+});
+
+/* ---- alias simulator ---- */
+const al=document.getElementById("alias");
+if(al){let modo="alias",a=[1,2,3],b=a,ult=null;const mem=al.querySelector(".alias-mem"),msg=al.querySelector(".alias-msg");
+  const caja=(arr,etqs,id)=>`<div class="obj"><div class="etqs">${etqs.map(e=>`<span class="etq">${e}</span>`).join("")}</div><div class="caja">${arr.map((v,i)=>`<span class="${v===99&&i===arr.length-1&&ult?"nuevo":""}">${v}</span>`).join("")}</div><small>id: ${id}</small></div>`;
+  function render(){
+    if(a===b)mem.innerHTML=caja(a,["a","b"],"140321");
+    else mem.innerHTML=caja(a,["a"],"140321")+caja(b,["b"],"140877");
+    if(!ult)msg.innerHTML=modo==="alias"?"<b>b = a</b>: hay <b>un solo objeto</b> con dos etiquetas. <code>a is b</code> → True.":"<b>b = a.copy()</b>: hay <b>dos objetos</b> distintos con el mismo contenido. <code>a is b</code> → False.";
+    else msg.innerHTML=modo==="alias"?`Después de <code>b.append(99)</code>: <code>print(a)</code> → <b>[${a.join(", ")}]</b>. ¡Cambió a, aunque nunca la tocamos!`:`Después de <code>b.append(99)</code>: <code>print(a)</code> → <b>[${a.join(", ")}]</b>. a quedó intacta.`;
+  }
+  function reset(){a=[1,2,3];b=modo==="alias"?a:a.slice();ult=null;render();}
+  al.querySelectorAll("[data-modo]").forEach(btn=>btn.onclick=()=>{modo=btn.dataset.modo;al.querySelectorAll("[data-modo]").forEach(x=>x.classList.toggle("on",x===btn));reset();});
+  al.querySelector('[data-acc="append"]').onclick=()=>{b.push(99);ult=true;render();};
+  al.querySelector('[data-acc="reset"]').onclick=reset;reset();}
+
+/* ---- slicer ---- */
+const sl=document.getElementById("slicer");
+if(sl){const L=[10,20,30,40,50,60],n=L.length;const ini=sl.querySelector("#s-ini"),fin=sl.querySelector("#s-fin"),paso=sl.querySelector("#s-paso");
+  const cel=sl.querySelector(".slicer-celdas"),res=sl.querySelector(".slicer-res");
+  const num=v=>{v=v.trim();if(v==="")return null;if(!/^-?\d+$/.test(v))return NaN;return parseInt(v,10);};
+  function idx(st,sp,sv){ // CPython slice.indices
+    const step=sv===null?1:sv;const lo=step>0?0:-1,hi=step>0?n:n-1;
+    const fix=(v,d)=>{if(v===null)return d;if(v<0){v+=n;if(v<lo)v=lo;}else if(v>hi)v=hi;return v;};
+    const s=fix(st,step>0?lo:hi),e=fix(sp,step>0?hi:lo);const out=[];
+    if(step>0)for(let i=s;i<e;i+=step)out.push(i);else for(let i=s;i>e;i+=step)out.push(i);return out;}
+  function render(){const s=num(ini.value),e=num(fin.value),p=num(paso.value);
+    let elegidos=[],error="";
+    if([s,e,p].some(Number.isNaN))error="Solo números enteros (o vacío).";else if(p===0)error="ValueError: slice step cannot be zero";else elegidos=idx(s,e,p);
+    cel.innerHTML=L.map((v,i)=>{const o=elegidos.indexOf(i);return `<div class="celda ${o>=0?"sel":""}">${o>=0?`<span class="ord">${o+1}</span>`:""}<b>${v}</b><small>${i}</small><small style="color:var(--red)">${i-n}</small></div>`}).join("");
+    const expr=`numeros[${ini.value.trim()}:${fin.value.trim()}${paso.value.trim()!==""?":"+paso.value.trim():""}]`;
+    res.innerHTML=error?`<span class="err">${error}</span>`:`${expr} → [${elegidos.map(i=>L[i]).join(", ")}]`;}
+  [ini,fin,paso].forEach(x=>x.addEventListener("input",render));
+  sl.querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>{const [x,y,z]=b.dataset.p.split(",");ini.value=x;fin.value=y;paso.value=z;render();});
+  ini.value="1";fin.value="4";render();}
+
+/* ---- consola flotante (modelo Clase 9) ---- */
+const EXPLICA={
+  TypeError:"Casos típicos con funciones: faltan o sobran argumentos (<i>missing 1 required positional argument</i>, <i>takes 2 positional arguments but 3 were given</i>), un nombre de parámetro mal escrito (<i>unexpected keyword argument</i>) u operar con <code>None</code> porque la función hace <code>print</code> en lugar de <code>return</code>. Si dice <i>object is not callable</i>, una variable tapó el nombre de la función.",
+  NameError:"Ese nombre no existe en este lugar. ¿Llamaste a la función antes de definirla? ¿Usás afuera una variable local de la función? Las variables creadas dentro de una función desaparecen cuando termina.",
+  UnboundLocalError:"La función asigna una variable con el mismo nombre que una del programa principal y la lee antes de asignarla. Pasá el valor como parámetro y devolvé el nuevo con <code>return</code>.",
+  SyntaxError:"Revisá los dos puntos (<code>:</code>) al final del <code>def</code>, los paréntesis y las comillas. Con argumentos: los posicionales van antes que los nombrados. Las lambdas no admiten <code>return</code> ni varias sentencias.",
+  IndentationError:"El cuerpo de la función tiene que estar indentado (4 espacios) respecto del <code>def</code>, y todas sus líneas al mismo nivel.",
+  ValueError:"Un valor con el tipo correcto pero contenido inválido: <code>int(\"abc\")</code>, o desempaquetar una cantidad distinta de valores de los que devuelve la función.",
+  ZeroDivisionError:"Se dividió por cero. Validá antes de dividir: por ejemplo, el promedio de una lista vacía.",
+  RecursionError:"Una función se llamó a sí misma demasiadas veces. ¿Tiene un caso base que corte la recursión?",
+  AttributeError:"Ese dato no tiene el método pedido. Si dice <code>NoneType</code>, una función devolvió <code>None</code> (le falta el <code>return</code>).",
+  IndexError:"Se accedió a una posición inexistente: revisá los límites del <code>while</code> o del <code>range()</code>.",
+  KeyError:"Esa clave no existe en el diccionario. Protegé con <code>in</code> o <code>get()</code>.",
+  ImportError:"Esta consola corre en el navegador: solo están disponibles los módulos estándar como <code>math</code> y <code>random</code>.",
+  ModuleNotFoundError:"Esta consola corre en el navegador: solo están disponibles los módulos estándar como <code>math</code> y <code>random</code>.",
+  "Límite":"La consola cortó la ejecución para que no se cuelgue. Revisá que el ciclo avance hacia su condición de fin."
+};
+function correrConsola(src,ents){const r=window.pyConsola(src,ents);return {salida:r[0],tipo:r[1],error:r[2],linea:r[3]};}
+function pintarConsola(host,r,ed){
+  host.innerHTML="";const term=document.createElement("div");term.className="terminal";
+  let t=r.salida?esc(r.salida):"";
+  if(r.tipo){if(t&&!t.endsWith("\n"))t+="\n";
+    t+='<span class="rojo">'+(r.tipo==="Límite"?esc(r.error):(r.linea?"Error en la línea "+r.linea+"\n":"")+esc(r.tipo)+(r.error?": "+esc(r.error):""))+"</span>";}
+  if(!t)t='<span class="tenue">(el programa no mostró nada)</span>';
+  term.innerHTML=t;host.appendChild(term);
+  if(r.tipo){const ex=document.createElement("div");ex.className="explica";
+    ex.innerHTML="<strong>"+esc(r.tipo==="Límite"?"Ejecución detenida":r.tipo)+".</strong> "+(EXPLICA[r.tipo]||"Error de ejecución.");host.appendChild(ex);
+    if(ed&&r.linea)ed.marcar(r.linea);}
+}
+function crearEditor(host,codigo,alEjecutar){
+  host.classList.add("ed");
+  host.innerHTML='<div class="gutter" aria-hidden="true"></div><div class="area"><pre class="capa" aria-hidden="true"><code></code></pre><textarea spellcheck="false" autocapitalize="off" autocomplete="off" autocorrect="off" wrap="off" aria-label="Editor de código Python"></textarea></div>';
+  const ta=host.querySelector("textarea"),capa=host.querySelector(".capa"),cod=host.querySelector("code"),gut=host.querySelector(".gutter");
+  ta.value=codigo;let marcada=0;
+  function sync(){cod.innerHTML=hl(ta.value)+"\n";const n=ta.value.split("\n").length;let g="";
+    for(let i=1;i<=n;i++)g+="<span"+(i===marcada?' class="err"':"")+">"+i+"</span>";gut.innerHTML=g;
+    ta.style.height="auto";ta.style.height=(ta.scrollHeight+2)+"px";capa.scrollLeft=ta.scrollLeft;}
+  function insertar(txt){ta.focus();let ok=false;try{ok=document.execCommand("insertText",false,txt);}catch(e){}
+    if(!ok){ta.setRangeText(txt,ta.selectionStart,ta.selectionEnd,"end");marcada=0;sync();}}
+  ta.addEventListener("input",()=>{marcada=0;sync();});
+  ta.addEventListener("scroll",()=>{capa.scrollLeft=ta.scrollLeft;});
+  ta.addEventListener("keydown",ev=>{
+    if(ev.key==="Enter"&&(ev.ctrlKey||ev.metaKey)){ev.preventDefault();alEjecutar&&alEjecutar();return;}
+    const v=ta.value,s0=ta.selectionStart,e0=ta.selectionEnd,ini=v.lastIndexOf("\n",s0-1)+1;
+    if(ev.key==="Tab"){ev.preventDefault();
+      if(ev.shiftKey||s0!==e0){const bIdx=v.indexOf("\n",e0-(e0>s0&&v[e0-1]==="\n"?1:0));const b=bIdx===-1?v.length:bIdx;
+        const nuevo=v.slice(ini,b).split("\n").map(l=>ev.shiftKey?l.replace(/^ {1,4}/,""):"    "+l).join("\n");
+        ta.setSelectionRange(ini,b);insertar(nuevo);ta.setSelectionRange(ini,ini+nuevo.length);}
+      else insertar("    ");return;}
+    if(ev.key==="Enter"){ev.preventDefault();const linea=v.slice(ini,s0);let ind=(linea.match(/^ */)||[""])[0];
+      if(/:\s*(#.*)?$/.test(linea))ind+="    ";insertar("\n"+ind);return;}
+    if(ev.key==="Backspace"&&s0===e0&&s0>ini){const antes=v.slice(ini,s0);
+      if(/^ +$/.test(antes)&&antes.length%4===0){ev.preventDefault();ta.setSelectionRange(s0-4,s0);insertar("");}}
+  });
+  sync();
+  return {get:()=>ta.value,set:v=>{ta.value=v;marcada=0;sync();},marcar:n=>{marcada=n;sync();},foco:()=>ta.focus()};
+}
+function crearEntradas(host,valores,id){
+  const w=document.createElement("div");w.className="entradas";
+  w.innerHTML='<label for="ent-'+id+'">Datos de entrada para <code>input()</code>, uno por línea</label><textarea id="ent-'+id+'" spellcheck="false"></textarea>';
+  const t=w.querySelector("textarea");const fijar=vs=>{t.value=vs.join("\n");t.rows=Math.max(1,Math.min(5,vs.length||1));};fijar(valores);host.appendChild(w);
+  return {get:()=>t.value===""?[]:t.value.split("\n"),set:fijar};
+}
+function crearConsola(host,codigo,entradas,id){
+  const edHost=document.createElement("div");host.appendChild(edHost);let ejecutar;
+  const ed=crearEditor(edHost,codigo,()=>ejecutar());const ent=crearEntradas(host,entradas,id);
+  const barra=document.createElement("div");barra.className="barra-acc";
+  barra.innerHTML='<button class="btn-c" type="button"><i class="fa-solid fa-play"></i> Ejecutar</button><button class="btn-c sec" type="button">Restaurar</button><span class="atajo">Ctrl + Enter ejecuta</span>';
+  host.appendChild(barra);
+  const sal=document.createElement("div");sal.className="consola-salida";sal.setAttribute("aria-live","polite");host.appendChild(sal);
+  const [bEj,bRe]=barra.querySelectorAll("button");let original={codigo,entradas};
+  ejecutar=()=>{const go=()=>pintarConsola(sal,correrConsola(ed.get(),ent.get()),ed);
+    if(pyListo&&window.pyConsola)go();else{sal.innerHTML='<div class="terminal"><span class="tenue">Preparando Python… se ejecuta al terminar.</span></div>';espera.push(go);}};
+  bEj.addEventListener("click",ejecutar);
+  bRe.addEventListener("click",()=>{ed.set(original.codigo);ent.set(original.entradas);sal.innerHTML="";});
+  return {cargar(c,e){original={codigo:c,entradas:e};ed.set(c);ent.set(e);sal.innerHTML="";},ejecutar,foco:ed.foco};
+}
+const cajon=document.getElementById("cajon"),lanzador=document.getElementById("lanzador");
+const libre=crearConsola(document.getElementById("consolaLibre"),
+ '# Escribí código Python y ejecutalo\ndef es_par(n):\n    return n % 2 == 0\n\n# Programa principal\nnumero = int(input("Número: "))\nif es_par(numero):\n    print(numero, "es par")\nelse:\n    print(numero, "es impar")\nprint(list(filter(lambda x: es_par(x), range(1, numero + 1))))\n',["10"],"libre");
+function abrirCajon(){cajon.classList.add("abierto");lanzador.style.display="none";lanzador.setAttribute("aria-expanded","true");}
+function cerrarCajon(){cajon.classList.remove("abierto");lanzador.style.display="";lanzador.setAttribute("aria-expanded","false");lanzador.focus();}
+lanzador.addEventListener("click",()=>{abrirCajon();libre.foco();});
+document.getElementById("cerrarCajon").addEventListener("click",cerrarCajon);
+document.addEventListener("keydown",e=>{if(e.key==="Escape"&&cajon.classList.contains("abierto"))cerrarCajon();});
+function probarEnConsola(codigo,entradas){libre.cargar(codigo,entradas||[]);abrirCajon();libre.ejecutar();}
+document.querySelectorAll(".win").forEach(win=>{const pre=win.querySelector("pre.py");
+  if(!pre||pre.dataset.run!=="1")return;
+  const b=document.createElement("button");b.type="button";b.className="btn-mini btn-probar";b.innerHTML='<i class="fa-solid fa-terminal"></i> Probar en la consola';
+  b.addEventListener("click",()=>{const t=win.querySelector("textarea");probarEnConsola(t?t.value:(pre.dataset.cur||pre.textContent),entsDe(pre));});
+  win.insertAdjacentElement("afterend",b);});
+
+/* ---- explorador de matriz ---- */
+const mx=document.getElementById("mexp");
+if(mx){const M=[[1,2,3,4],[5,6,7,8],[9,10,11,12]];let vista="celda",ci=2,cj=1;const g=mx.querySelector(".mexp-grid"),r=mx.querySelector(".mexp-res");
+  function render(){let h='<span></span>'+M[0].map((_,j)=>`<span class="hdr">col ${j}</span>`).join("");
+    M.forEach((fila,i)=>{h+=`<span class="hdr">fila ${i}</span>`+fila.map((v,j)=>{let c="";
+      if(vista==="celda"&&i===ci&&j===cj)c="sel";else if(vista==="fila"&&i===ci)c=j===cj?"sel":"hl";else if(vista==="col"&&j===cj)c=i===ci?"sel":"hl";else if(vista==="diag"&&i===j)c="hl";
+      return `<button type="button" class="${c}" data-i="${i}" data-j="${j}" aria-label="fila ${i}, columna ${j}, valor ${v}">${v}</button>`}).join("")});
+    g.innerHTML=h;
+    if(vista==="celda")r.innerHTML=`matriz[${ci}][${cj}] → <b>${M[ci][cj]}</b>`;
+    else if(vista==="fila")r.innerHTML=`matriz[${ci}] → <b>[${M[ci].join(", ")}]</b>`;
+    else if(vista==="col")r.innerHTML=`columna ${cj}: [fila[${cj}] for fila in matriz] → <b>[${M.map(f=>f[cj]).join(", ")}]</b>`;
+    else r.innerHTML=`i == j → <b>[${[0,1,2].map(i=>M[i][i]).join(", ")}]</b><br><span style="font-family:inherit;color:var(--muted)">3x4 no es cuadrada: la “diagonal” solo toca 3 celdas</span>`;}
+  g.addEventListener("click",e=>{const b=e.target.closest("button");if(!b)return;ci=+b.dataset.i;cj=+b.dataset.j;render();});
+  mx.querySelectorAll("[data-v]").forEach(b=>b.onclick=()=>{vista=b.dataset.v;mx.querySelectorAll("[data-v]").forEach(x=>x.classList.toggle("on",x===b));render();});
+  render();}
+
+/* ---- aliasing de matrices ---- */
+const ma=document.getElementById("malias");
+if(ma){let modo="mal",hecho=false;const mem=ma.querySelector(".malias-mem"),msg=ma.querySelector(".alias-msg");
+  function render(){const ids=modo==="mal"?["7001","7001","7001"]:["7001","7002","7003"];
+    let filas="";for(let i=0;i<3;i++){const cambia=hecho&&(modo==="mal"||i===0);
+      filas+=`<div class="mrow"><span class="etq">M[${i}]</span><div class="caja"><span class="${cambia?"cambio":""}">${cambia?5:0}</span><span>0</span><span>0</span></div><small>id ${ids[i]}</small></div>`;}
+    mem.innerHTML=`<div class="mrows">${filas}</div>`;
+    if(!hecho)msg.innerHTML=modo==="mal"?"Las tres filas tienen el <b>mismo id</b>: son una sola lista con tres nombres.":"Cada fila tiene <b>su propio id</b>: <code>[0] * 3</code> se evaluó tres veces.";
+    else msg.innerHTML=modo==="mal"?"<code>M[0][0] = 5</code> cambió <b>las tres filas</b>, porque son la misma.":"<code>M[0][0] = 5</code> cambió <b>solo la fila 0</b>.";}
+  ma.querySelectorAll("[data-modo]").forEach(b=>b.onclick=()=>{modo=b.dataset.modo;hecho=false;ma.querySelectorAll("[data-modo]").forEach(x=>x.classList.toggle("on",x===b));render();});
+  ma.querySelector('[data-acc="set"]').onclick=()=>{hecho=true;render();};
+  ma.querySelector('[data-acc="reset"]').onclick=()=>{hecho=false;render();};render();}
+/* ---- simulador de tabla hash ---- */
+const hs=document.getElementById("hashsim");
+if(hs){const N=8;const base={"manzana":1200,"pera":1500,"banana":900,"kiwi":2100,"uva":1800};let tabla;
+  const hsh=k=>{let h=0;for(const c of k)h=(h*31+c.codePointAt(0))%1000003;return h;};
+  const inp=hs.querySelector("#hs-clave"),box=hs.querySelector(".hs-tabla"),msg=hs.querySelector(".hs-msg");
+  function reset(){tabla=Array.from({length:N},()=>[]);Object.entries(base).forEach(([k,v])=>tabla[hsh(k)%N].push([k,v]));render(-1,"");msg.textContent="Tabla con 5 frutas. Probá buscar una que esté y otra que no.";}
+  function render(i,cls){box.innerHTML=tabla.map((c,j)=>`<div class="hs-cas ${j===i?cls:""}"><small>casillero ${j}</small>${c.map(([k,v])=>`<span>"${k}": ${v}</span>`).join("")||'<span style="color:var(--muted)">vacío</span>'}</div>`).join("");}
+  function accion(tipo){const k=inp.value.trim().toLowerCase();if(!k){msg.textContent="Escribí una clave.";return;}
+    const h=hsh(k),i=h%N,esta=tabla[i].find(p=>p[0]===k);
+    if(tipo==="agregar"){if(esta){msg.innerHTML=`"${k}" ya existe: asignar de nuevo solo <b>reemplaza</b> su valor (las claves son únicas).`;render(i,"hit");return;}
+      tabla[i].push([k,0]);render(i,"hit");msg.innerHTML=`hash("${k}") % ${N} = <b>${i}</b> → se guarda en el casillero ${i}.`;return;}
+    render(i,esta?"hit":"miss");
+    msg.innerHTML=`hash("${k}") % ${N} = <b>${i}</b> → se revisa <b>solo</b> el casillero ${i}: ${esta?`encontrada, valor ${esta[1]}.`:"no está (sin recorrer los demás)."} Una lista habría comparado hasta ${tabla.flat().length} elementos.`;}
+  hs.querySelector('[data-hs="buscar"]').onclick=()=>accion("buscar");
+  hs.querySelector('[data-hs="agregar"]').onclick=()=>accion("agregar");
+  hs.querySelector('[data-hs="reset"]').onclick=reset;
+  inp.addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();accion("buscar");}});reset();}
+
+/* ---- diagrama de Venn ---- */
+const vn=document.getElementById("venn");
+if(vn){const A=["Ana","Luis","Sofía","Tomás"],B=["Juli","Luis","Tomás","Valen"];
+  const OPS={"|":{a:1,b:1,i:1,e:"python | datos",r:[...new Set([...A,...B])]},"&":{a:0,b:0,i:1,e:"python & datos",r:A.filter(x=>B.includes(x))},
+    "-":{a:1,b:0,i:0,e:"python - datos",r:A.filter(x=>!B.includes(x))},"r":{a:0,b:1,i:0,e:"datos - python",r:B.filter(x=>!A.includes(x))},
+    "^":{a:1,b:1,i:0,e:"python ^ datos",r:[...A.filter(x=>!B.includes(x)),...B.filter(x=>!A.includes(x))]}};
+  const rA=vn.querySelector(".rA"),rB=vn.querySelector(".rB"),rI=vn.querySelector(".rI"),res=vn.querySelector(".venn-res");
+  function render(op){const o=OPS[op];rA.setAttribute("class","rA"+(o.a?" on":""));rB.setAttribute("class","rB"+(o.b?" on":""));
+    rI.setAttribute("class","rI"+(o.i?" on":((o.a||o.b)?" tapa":"")));
+    if(o.i&&!(o.a||o.b))rI.setAttribute("class","rI on");
+    res.innerHTML=`sorted(${o.e.replace("&","&amp;")}) → <b>[${o.r.sort((x,y)=>x.localeCompare(y)).map(x=>"'"+x+"'").join(", ")}]</b>`;}
+  vn.querySelectorAll("[data-op]").forEach(b=>b.onclick=()=>{vn.querySelectorAll("[data-op]").forEach(x=>x.classList.toggle("on",x===b));render(b.dataset.op);});
+  render("|");}
+
+/* ---- explorador de archivos ---- */
+function crearExplorador(host){
+  let abierto=host.dataset.abrir||"";
+  const ul=document.createElement("div");ul.className="ex-lista";const ver=document.createElement("div");ver.className="ex-ver";
+  host.append(ul,ver);
+  function tam(t){const n=new Blob([t]).size;return n<1024?n+" B":(n/1024).toFixed(1)+" KB";}
+  function render(){const ls=window.fsListaTodo();
+    ul.innerHTML=ls.map(p=>{const existe=window.fsExiste(p),o=window.fsOriginal(p),c=existe?window.fsLeer(p):"";
+      const est=!existe?"eliminado":(o===null?"nuevo":(o===c?"":"modificado"));
+      const ic=p.includes("/")?"fa-regular fa-folder-open":"fa-regular fa-file-lines";
+      return `<button type="button" class="ex-arch ${p===abierto?"on":""} ${existe?"":"ex-borrado"}" data-p="${p}" ${existe?"":"disabled"}><i class="${ic}"></i><span>${p}</span>${est?`<em class="ex-${est}">${est}</em>`:""}<small>${existe?tam(c):""}</small></button>`;}).join("");
+    if(abierto&&window.fsExiste(abierto)){const c=window.fsLeer(abierto);
+      ver.innerHTML=`<div class="ex-cab"><code>${abierto}</code><button type="button" class="btn-mini" data-cerrar>Cerrar</button></div><pre class="ex-txt"></pre>`;
+      const pre=ver.querySelector(".ex-txt");
+      if(c===""){pre.textContent="(archivo vacío)";}
+      else{pre.innerHTML=c.split("\n").map((l,i,a)=>esc(l)+(i<a.length-1?'<span class="ex-nl">\\n</span>':"")).join("\n")+(c.endsWith("\n")?"":'<span class="ex-sinnl">sin \\n final</span>');}
+      ver.querySelector("[data-cerrar]").onclick=()=>{abierto="";render();};}
+    else ver.innerHTML="";}
+  ul.addEventListener("click",e=>{const b=e.target.closest("[data-p]");if(!b||b.disabled)return;abierto=abierto===b.dataset.p?"":b.dataset.p;render();});
+  document.addEventListener("fs-cambio",render);render();
+}
+document.querySelectorAll("[data-explorador]").forEach(crearExplorador);
+document.querySelectorAll("[data-restaurar]").forEach(b=>b.onclick=()=>{window.fsRestaurar();b.innerHTML='<i class="fa-solid fa-check"></i> Archivos restaurados';setTimeout(()=>b.innerHTML='<i class="fa-solid fa-rotate-left"></i> Restaurar archivos',1500);});
+
+/* ---- anatomía de una función ---- */
+const an=document.getElementById("anatomia");
+if(an){const TXT={def:"<b>1. def</b>: palabra reservada que indica que comienza la definición de una función.",
+  nombre:"<b>2. Nombre</b>: mismas reglas que las variables; conviene un verbo en infinitivo que describa la tarea.",
+  param:"<b>3. Parámetros</b>: entre paréntesis y separados por comas. Son la puerta de entrada de los datos. Puede haber cero o más.",
+  dos:"<b>4. Dos puntos</b>: cierran la cabecera. Sin ellos, <code>SyntaxError</code>.",
+  cuerpo:"<b>5. Cuerpo</b>: las sentencias que se ejecutan al llamar a la función. Lo define la sangría (4 espacios).",
+  ret:"<b>6. return</b>: devuelve el resultado al programa que llamó y termina la función."};
+  const msg=an.querySelector(".anat-txt");
+  function ver(p){an.querySelectorAll(".ap").forEach(e=>e.classList.toggle("on",e.dataset.p===p));
+    an.querySelectorAll("[data-ver]").forEach(b=>b.classList.toggle("on",b.dataset.ver===p));msg.innerHTML=TXT[p];}
+  an.querySelectorAll("[data-ver]").forEach(b=>b.onclick=()=>ver(b.dataset.ver));
+  an.querySelectorAll(".ap").forEach(e=>e.onclick=()=>ver(e.dataset.p));ver("def");}
+
+/* ---- simulador de llamada ---- */
+const sim=document.getElementById("sim");
+if(sim){const COD=["def calcularpromedio(a, b):","    total = (a + b) / 2","    return total","","# Programa principal","x = 7","y = 10","resultado = calcularpromedio(x, y)","print(\"El promedio es\", resultado)"];
+  const F="<función>";
+  const P=[
+   {l:-1,m:{},f:null,o:"",t:"El programa todavía no empezó. Tocá <b>Siguiente</b>."},
+   {l:0,m:{calcularpromedio:F},f:null,o:"",t:"<code>def</code> <b>crea</b> la función, pero no ejecuta su cuerpo. Python salta a la siguiente sentencia fuera de la función."},
+   {l:5,m:{calcularpromedio:F,x:7},f:null,o:"",t:"Empieza el programa principal: se crea <code>x</code>."},
+   {l:6,m:{calcularpromedio:F,x:7,y:10},f:null,o:"",t:"Se crea <code>y</code>."},
+   {l:7,m:{calcularpromedio:F,x:7,y:10},f:{a:7,b:10},o:"",t:"<b>Llamada.</b> El flujo salta a la función y se crea su espacio propio: <code>a</code> recibe el valor de <code>x</code> y <code>b</code> el de <code>y</code>."},
+   {l:1,m:{calcularpromedio:F,x:7,y:10},f:{a:7,b:10,total:8.5},o:"",t:"<code>total</code> es una variable <b>local</b>: solo existe dentro de la función."},
+   {l:2,m:{calcularpromedio:F,x:7,y:10},f:{a:7,b:10,total:8.5,"↩ devuelve":8.5},o:"",t:"<code>return total</code> entrega <b>8.5</b> al programa principal y termina la función."},
+   {l:7,m:{calcularpromedio:F,x:7,y:10,resultado:8.5},f:null,o:"",t:"El espacio de la función <b>desapareció</b> (con <code>a</code>, <code>b</code> y <code>total</code>). El valor devuelto se guarda en <code>resultado</code>."},
+   {l:8,m:{calcularpromedio:F,x:7,y:10,resultado:8.5},f:null,o:"El promedio es 8.5",t:"Se muestra el resultado. ¿Podríamos hacer <code>print(total)</code> acá? No: <code>total</code> ya no existe (<code>NameError</code>)."}];
+  let k=0;const cod=sim.querySelector(".sim-cod"),mem=sim.querySelector(".sim-mem"),sal=sim.querySelector(".sim-sal pre"),t=sim.querySelector(".sim-msg"),np=sim.querySelector(".sim-paso");
+  const caja=(tit,obj,cls)=>`<div class="sim-frame ${cls}"><b>${tit}</b>${Object.keys(obj).length?Object.entries(obj).map(([n,v])=>`<div class="sim-var"><code>${esc(n)}</code><span>${esc(String(v))}</span></div>`).join(""):'<div class="sim-vacio">sin variables</div>'}</div>`;
+  function render(){const p=P[k];
+    cod.innerHTML=COD.map((l,i)=>`<span class="sim-l ${i===p.l?"on":""} ${i<3?"sim-fn":""}"><em>${i+1}</em>${hl(l)||" "}</span>`).join("");
+    mem.innerHTML=caja("Programa principal",p.m,"sim-main")+(p.f?caja("calcularpromedio",p.f,"sim-fun"):"");
+    sal.textContent=p.o||"";t.innerHTML=p.t;np.textContent=`Paso ${k} de ${P.length-1}`;
+    sim.querySelector('[data-sim="prev"]').disabled=k===0;sim.querySelector('[data-sim="next"]').disabled=k===P.length-1;}
+  sim.querySelector('[data-sim="next"]').onclick=()=>{if(k<P.length-1){k++;render();}};
+  sim.querySelector('[data-sim="prev"]').onclick=()=>{if(k>0){k--;render();}};
+  sim.querySelector('[data-sim="reset"]').onclick=()=>{k=0;render();};
+  render();}
+
+/* ---- quiz ---- */
+let resp=0;const total=document.querySelectorAll(".q").length;
+document.querySelectorAll(".q").forEach(q=>{const fb=q.querySelector(".q-fb");
+  q.querySelectorAll(".q-op").forEach(b=>b.onclick=()=>{if(q.dataset.done)return;q.dataset.done=1;resp++;
+    const ok=b.dataset.ok==="1";b.classList.add(ok?"ok":"no");q.querySelector('[data-ok="1"]').classList.add("ok");
+    fb.textContent=(ok?"✔ Correcto. ":"✘ No. ")+q.dataset.exp;q.dataset.bien=ok?1:0;
+    const bien=document.querySelectorAll('.q[data-bien="1"]').length;
+    document.getElementById("q-score").textContent=`Respondidas: ${resp} de ${total} | Correctas: ${bien}`;});});
+
+/* ---- teacher mode ---- */
+const sw=document.getElementById("modo-docente");
+function aplicarModo(on){document.body.classList.toggle("alumno",!on);sw.checked=on;document.getElementById("modo-lbl").textContent=on?"Vista docente":"Vista alumno";}
+let docente=true;try{const g=localStorage.getItem("modo-docente");if(g!==null)docente=g==="1";}catch(e){}
+aplicarModo(docente);sw.onchange=()=>{aplicarModo(sw.checked);try{localStorage.setItem("modo-docente",sw.checked?"1":"0")}catch(e){}};
+
+/* ---- class timer ---- */
+const AG=[["apertura","Apertura",5],["m1","Módulo 1",25],["m2","Módulo 2",25],["pausa","Pausa",10],["m3","Módulo 3",25],["m4","Módulo 4",20],["m5","Módulo 5",35],["cierre","Cierre",5]];
+const ul=document.getElementById("agenda");let acc=0;
+ul.innerHTML=AG.map(([id,t,m])=>{const d=acc;acc+=m;const f=x=>`${Math.floor(x/60)}:${String(x%60).padStart(2,"0")}`;return `<li><a href="#${id}" data-ini="${d}" data-fin="${acc}"><span>${t}</span><span>${f(d)}–${f(acc)}</span></a></li>`}).join("");
+let seg=0,tick=null;const reloj=document.getElementById("reloj"),barra=document.getElementById("barra"),bt=document.getElementById("t-play");
+function pintar(){const m=Math.floor(seg/60),s=seg%60;reloj.innerHTML=`${String(m).padStart(2,"0")}:${String(s).padStart(2,"0")} <small>/ 150:00</small>`;
+  barra.style.width=Math.min(100,seg/90)+"%";const min=seg/60;
+  ul.querySelectorAll("a").forEach(a=>{const i=+a.dataset.ini,f=+a.dataset.fin;a.classList.toggle("activo",seg>0&&min>=i&&min<f);a.classList.toggle("hecho",min>=f);});}
+bt.onclick=()=>{if(tick){clearInterval(tick);tick=null;bt.innerHTML='<i class="fa-solid fa-play"></i> Seguir';}else{tick=setInterval(()=>{seg++;pintar();},1000);bt.innerHTML='<i class="fa-solid fa-pause"></i> Pausar';}};
+document.getElementById("t-reset").onclick=()=>{clearInterval(tick);tick=null;seg=0;bt.innerHTML='<i class="fa-solid fa-play"></i> Iniciar';pintar();};
+pintar();
+
+window.addEventListener("load",()=>{setTimeout(()=>{if(!window.pyRun&&window.brython){try{brython({debug:0})}catch(e){}}
+  const chk=setInterval(()=>{if(window.pyRun){clearInterval(chk);marcarListo();}},150);},50);});
+})();
+</script>
+</body>
+</html>
+</body></html>
